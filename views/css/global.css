@@ -1,0 +1,72 @@
+.toggle-box {
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  background-color: #292929;
+  border-radius: 17px;
+  position: relative;
+}
+
+.toggle-box:hover {
+  cursor: pointer;
+}
+
+.toggle-box .slider {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(202, 202, 202);
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.toggle-box input:checked + .slider {
+  left: 30px;
+  background-color: var(--accentuation-color);
+}
+
+.toggle-box input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  min-width: 5%;
+  max-width: 15%;
+  font-size: 10px;
+  min-height: 1%;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--context-color);
+  color: var(--font-color);
+  font-family: "Inter", sans-serif;
+  padding: 0.5rem;
+  transition: opacity .3s, top .25s;
+  opacity: 0;
+  z-index: 1000;
+}
+
+.tooltiped {
+  animation: floatAnimation 3s infinite ease-in-out;
+}
+
+@keyframes floatAnimation {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

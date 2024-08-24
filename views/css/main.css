@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --accentuation-color:#51a4f8;
+
+
+  --background: #141414;
+  --main-color: #0f0e0e;
+  --card-border: #242424;
+  --alpha-color: #0f0e0e9d;
+  --selection-background: #fff;
+  --selection-font: #000;
+  --border-colors: #777;
+  --font-color: #fff;
+  --track-color: #2b2b2b;
+  --info-color: #51a4f8;
+  --error-color: #fa4d4d;
+  --warning-color: #fac636;
+  --context-color: #1b1b1b;
+
+  --minimize-btn-color: #ffbd2e;
+  --close-btn-color: #ff5f56;
+  --resize-btn-color: #05b7e4;
+  --dev-btn-color: #fff;
+}
+
+* {
+  margin: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+*::selection {
+  background-color: #fff;
+  color: #000;
+}
+
+body {
+  background-color: var(--background);
+  overflow: hidden;
+  position: relative;
+}
+
+.tab_nav {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--font-color);
+  margin-bottom: 6px;
+  height: 7%;
+  width: 100%;
+}
+
+.tab {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin-right: 15px;
+  width: -webkit-fill-available;
+  height: 10%;
+  border-radius: 6px;
+  padding: 5px;
+  text-align: left;
+  font-size: 1.5vw;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  color: #fff;
+  border: none;
+  outline: none;
+  z-index: 30;
+  background-color: transparent;
+  border: 1px var(--border-colors) solid;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: background-color .1s ease-in-out, border .1s ease-in-out, opacity .15s ease-in-out, width .2s ease-in-out;
+}
+
+.tabs {
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.createtab {
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  height: 75%;
+  padding: 0 0.8rem 0 0.8rem;
+  background-color: var(--main-color);
+  border: 1px var(--main-color) solid;
+  color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border .2s ease-in-out, background-color .2s ease-in-out;
+}
+
+.createtab:hover {
+  background-color: var(--background);
+  border: 1px var(--border-colors) solid;
+}
+
+.createtab:active {
+  background-color: var(--border-colors);
+}
+
+
+.dragging{
+  animation: tabSwing 0.5s ease-in-out infinite alternate;
+  background-color: var(--context-color) !important;
+  z-index: 100;
+}
+
+
+
+@keyframes tabSwing {
+  0% {
+      transform: rotateZ(3deg);
+  }
+  100% {
+      transform: rotateZ(-3deg);
+  }
+}
+
+.frame {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  border-bottom: 0.5px #242424 solid;
+  background-color: var(--main-color);
+  z-index: 1000;
+}
+
+#draggable-area {
+  background-color: var(--main-color);
+  -webkit-app-region: drag;
+  width: 100%;
+  z-index: 20;
+}
+
+.closetab {
+  text-align: right;
+  border: none;
+  color: #fff;
+  font-size: 1.2vw;
+  background-color: transparent;
+  align-self: flex-end;
+  border-radius: 5px;
+  padding: .3rem;
+  cursor: pointer;
+  transition: background-color .2s ease-in-out;
+}
+
+.closetab:hover {
+  background-color: #363636b7;
+}
+
+.actived {
+  background-color: var(--main-color);
+  border: 1px transparent solid;
+}
+
+.closed {
+  opacity: 0;
+}
+
+/* Estilos de los botones de control */
+.control_buttons {
+  height: 7%;
+  display: flex;
+  background-color: var(--main-color);
+  justify-content: flex-end;
+  flex-direction: row;
+  width: 200px;
+  top: 0;
+  right: 0;
+  -webkit-app-region: no-drag;
+  text-align: center;
+  z-index: 5;
+}
+
+.control-button {
+  color: var(--font-color);
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  padding: 5px;
+  width: 27px;
+  margin: 6px;
+  height: 27px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color .2s, color .2s;
+}
+
+.close-button {
+  background-color: #363636;
+}
+
+.close-button:hover {
+  background-color: var(--close-btn-color);
+}
+
+.minimize-button {
+  background-color: #363636;
+}
+
+.minimize-button:hover {
+  background-color: var(--minimize-btn-color);
+}
+
+.resize-button {
+  background-color: #363636;
+}
+
+.resize-button:hover {
+  background-color: var(--resize-btn-color);
+}
+
+.devtools-button {
+  background-color: #363636;
+}
+
+.devtools-button:hover {
+  background-color: var(--dev-btn-color);
+  color: #000;
+}
+
+/* Contenedor principal y módulos */
+.container {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  height: 100%;
+}
+
+.modules_tab {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--main-color);
+  width: 55%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  /* Necesario para posicionar el botón */
+  transition: width .4s ease
+}
+
+.module_template {
+  font-weight: 200;
+  font-family: 'Inter', sans-serif;
+  margin: 12 auto;
+  border-radius: 100px;
+  padding: 10px;
+  border: 1px var(--border-colors) solid;
+  font-size: 1.4vw;
+  text-align: center;
+  min-width: 50%;
+  background-color: var(--main-color);
+  color: var(--font-color);
+}
+
+.modulesTitle {
+  font-size: 1.7vw;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border-bottom: 1px #fff solid;
+  color: var(--font-color);
+  margin: 1 auto;
+  margin-top: 55px;
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.tabs::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--track-color);
+  border-radius: 6px;
+}
+
+.windowTitle {
+  margin: 10px;
+  color: var(--font-color);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.chatControls {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+
+.sendButton {
+  outline: none;
+  height: 50px;
+  width: 50px;
+  margin-top: 25px;
+  margin-left: 10px;
+  border-radius: 10px;
+  border: 1px var(--border-colors) solid;
+  background-color: var(--main-color);
+  color: var(--font-color);
+  cursor: pointer;
+  transition: color .2s, background-color .2s;
+}
+
+.sendButton:hover {
+  background-color: var(--border-colors);
+}
+
+.chatInput {
+  outline: none;
+  border: 1px var(--border-colors) solid;
+  background-color: var(--main-color);
+  width: 100%;
+  height: 50px;
+  color: #fff;
+  border-radius: 100px;
+  margin-top: 20px;
+  padding-left: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.inputContainer {
+  width: 100%;
+}
+
+.placeholderIcon {
+  position: absolute;
+  transform: translate(23px, 38px);
+  color: var(--border-colors);
+  opacity: 0;
+}
+
+
+.empty {
+  opacity: 1;
+}
+
+
+.collapseModules {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--main-color);
+  border: 1px var(--border-colors) solid;
+  color: var(--font-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5vw;
+  cursor: pointer;
+  z-index: 1;
+  /* Asegura que esté por encima del contenido desplazable */
+  transition: height .4s ease, width .4s ease, transform .4s ease;
+
+}
+
+.collapsed {
+  left: 0;
+}
+
+.tabcollapsed {
+  width: 0;
+  padding: 0;
+}
+
+@media (max-width:850px) {
+  .collapseModules {
+    left: calc(31vw);
+    width: 35px;
+    height: 35px;
+  }
+
+  .collapsed {
+    left: 0;
+  }
+
+  .tabcollapsed {
+    width: 0;
+    padding: 0;
+  }
+}
