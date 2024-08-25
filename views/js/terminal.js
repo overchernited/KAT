@@ -1,5 +1,7 @@
 const decoder = new TextDecoder('utf-8');
 const py = window.modules.py
+
+
 let messagesBuffer = [];
 
 const originalConsoleError = console.error;

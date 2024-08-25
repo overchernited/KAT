@@ -23,7 +23,7 @@ terminalsdict[currentTerminal].tabsContent[tabidx] = firstTab;
 
 function createTab(idx) {
     if (configs["createTabSound"] === true){
-        soundRep(selectedSounds["createTabSelectedSound"])
+        soundRep(selectedFiles["createTabSelectedSound"])
     }
 
 
@@ -74,7 +74,7 @@ function assignTabListeners() {
 
         tab.addEventListener('dragstart', (event) => {
             if (configs["dragTabSound"] === true){
-                soundRep(selectedSounds["dragTabSelectedSound"])
+                soundRep(selectedFiles["dragTabSelectedSound"])
             }
             dragging = true
             const target = event.target.closest('.tab');
@@ -184,7 +184,7 @@ function changeCurrentTabTo(idxtt, idxt) {
 
 function closeTab(idxtt, idxt, event) {
     if (configs["closeTabSound"] === true){
-        soundRep(selectedSounds["closeTabSelectedSound"])
+        soundRep(selectedFiles["closeTabSelectedSound"])
     }
     if (event) { event.stopPropagation(); }
 

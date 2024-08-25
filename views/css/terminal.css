@@ -58,7 +58,7 @@
     background-color: var(--main-color);
     overflow-y: scroll;
     width: 100%;
-    height: 70vh;
+    height: 75vh;
     text-align: left;
     border-radius: 15px;
     user-select: text;

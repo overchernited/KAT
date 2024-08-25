@@ -103,7 +103,7 @@ function handleDrop(event) {
   event.preventDefault();
 
   if (configs["dropTabSound"] === true){
-    soundRep(selectedSounds["dropTabSelectedSound"])
+    soundRep(selectedFiles["dropTabSelectedSound"])
   }
 
   const dataidx = event.dataTransfer.getData('tab/idx');
@@ -145,7 +145,7 @@ function sendMessageFromChatField(idx) {
   message = chatfield.value
   if (message != '' && idx == currentTerminal) {
     if (configs["sendMessageSound"] === true){
-      soundRep(selectedSounds["sendMessageSelectedSound"])
+      soundRep(selectedFiles["sendMessageSelectedSound"])
     }
     messagesBuffer.push({ message, type: 'message', id: idx });
     processMessagesBuffer();

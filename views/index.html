@@ -7,10 +7,10 @@
   <title>KAT Terminal</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/terminal.css">
-  <link rel="stylesheet" href="css/contextMenu.css">
-  <link rel="stylesheet" href="css/config.css">
   <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/contextMenu.css">
   <link rel="stylesheet" href="css/filemanager.css">
+  <link rel="stylesheet" href="css/modals.css"
 </head>
 
 <body oncontextmenu="bodyContext(event)">
@@ -29,93 +29,17 @@
   <div class="filemanager" id="filemanager">
     <p class="filemgrTitle" id="mngrTitle">Select a sound</p>
     <div class="filemanagerMainDiv">
-      <div class="filemngrGroups" id="mngrGroups">
-        <div class="file">
-          <div class="filebox blue selectedfile">
-              <i class="fa-solid fa-music"></i>
-          </div>
-          <p>test</p>
-      </div>
-      </div>
       <div class="files" id="mngrFiles">
         
       </div>
     </div>
   </div>
 
-  <div class="config" id="katview">
-    <div class="configModal" id="configModal">
-      <div class="configControls">
-        <button class="control-button close-button configclse" id="configCloseBtn"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <p class="configTitle">Global Configurations</p>
-      <p class="subdivisionTitle">Terminal Chat</p>
-      <div class="subconfig">
-        <div class="configSubTitle">
-          Auto-Scroll Zone Size
-          <div class="descriptions" data-key="autoscrollzone" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"> 
-            <i class="fa-solid fa-circle-info"></i>
-          </div>
-        </div>
-        <input type="range" class="rangeInput" id="scrollzonerange" min="200" max="600" value="300" step="10"
-          oninput="changueAutoScrollZone()">
-        <p class="configSubTitle" id="rangeParagraph">300px</p>
-      </div>
-      <div class="subdivisionTitle">
-        Sounds 
-        <div class="descriptions" data-key="sounds" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"> 
-          <i class="fa-solid fa-circle-info"></i>
-        </div>
-      </div>
-      <div class="sounds">
-        <div class="sound">
-          <button class="openManagerBtn" data-type="soundsRepository" data-variable="createTabSelectedSound" data-key="soundselect" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
-          <p class="soundTitle">Create Tab</p>
-          <label class="toggle-box">
-            <input class="checkbox" type="checkbox" data-variable="createTabSound" onchange="toggleSlider(this, soundChangeHandler)"
-              checked>
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="sound">
-          <button class="openManagerBtn" data-type="themesRepository" data-key="soundselect" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
-          <p class="soundTitle">Close Tab</p>
-          <label class="toggle-box">
-            <input class="checkbox" type="checkbox" data-variable="closeTabSound" onchange="toggleSlider(this, soundChangeHandler)"
-              checked>
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="sound">
-          <button class="openManagerBtn" data-type="soundsRepository" data-key="soundselect" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
-          <p class="soundTitle">Drag Tab</p>
-          <label class="toggle-box">
-            <input class="checkbox" type="checkbox" data-variable="dragTabSound" onchange="toggleSlider(this, soundChangeHandler)"
-              checked>
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="sound">
-          <button class="openManagerBtn" data-type="soundsRepository"  data-key="soundselect" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
-          <p class="soundTitle">Drop Tab</p>
-          <label class="toggle-box">
-            <input class="checkbox" type="checkbox" data-variable="dropTabSound" onchange="toggleSlider(this, soundChangeHandler)"
-              checked>
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="sound">
-          <button class="openManagerBtn" data-type="soundsRepository"  data-key="soundselect" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
-          <p class="soundTitle">Send Message</p>
-          <label class="toggle-box">
-            <input class="checkbox" type="checkbox" data-variable="sendMessageSound" onchange="toggleSlider(this, soundChangeHandler)"
-              checked>
-            <div class="slider"></div>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="modal" id="modalview">
+    <div class="modalcontent" id="modalcontent">
+
+   </div>
+ </div>
 
   <div class="terminalSplitPreview" id="splitPreview">
     <div class="split" id="right">
@@ -170,16 +94,16 @@
       </div>
     </div>
 
-    <!-- <button class="collapseModules collapsed" id="collapseModules" onclick="collapseModulesTab()"><i
+    <button class="collapseModules collapsed" id="collapseModules" onclick="collapseModulesTab()"><i
         class="fa-solid fa-chevron-left"></i></button>
     <div class="modules_tab tabcollapsed" id="modules_tab">
 
       <p class="modulesTitle">Modules</p>
-    </div> -->
+    </div>
 </body>
 <script src="js/global.js"></script>
+<script src="js/modals.js"></script>
 <script src="js/filemanager.js"></script>
-<script src="js/config.js"></script>
 <script src="js/controls.js"></script>
 <script src="js/split.js"></script>
 <script src="js/tabs.js"></script>

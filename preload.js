@@ -157,3 +157,18 @@ loadModulesPreloads(path.join(__dirname, 'modules'))
 ipcRenderer.on('closeTab', (event, message) => {
   window.dispatchEvent(new Event('closeTab'));
 });
+
+
+ipcMain.on('run-cmd', (event, command) => {
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      event.reply('cmd-output', `Error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      event.reply('cmd-output', `Stderr: ${stderr}`);
+      return;
+    }
+    event.reply('cmd-output', stdout);
+  });
+});

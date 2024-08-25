@@ -1,6 +1,60 @@
 const tooltipDiv = document.getElementById("tooltipDiv");
 let tooltiped = false;
 
+const defaultConfigs = {
+  createTabSound: true,
+  closeTabSound: true,
+  dragTabSound: true,
+  dropTabSound: true,
+  sendMessageSound: true,
+  scrollZoneSize: 300,
+};
+
+const defaultSounds = {
+  createTabSelectedSound: "Sound2.mp3",
+  closeTabSelectedSound: "Sound1.mp3",
+  dragTabSelectedSound: "Sound3.mp3",
+  dropTabSelectedSound: "Sound4.mp3",
+  sendMessageSelectedSound: "Sound5.mp3",
+};
+
+let configs = {
+  createTabSound: getItem("createTabSound", defaultConfigs.createTabSound),
+  closeTabSound: getItem("closeTabSound", defaultConfigs.closeTabSound),
+  dragTabSound: getItem("dragTabSound", defaultConfigs.dragTabSound),
+  dropTabSound: getItem("dropTabSound", defaultConfigs.dropTabSound),
+  sendMessageSound: getItem(
+    "sendMessageSound",
+    defaultConfigs.sendMessageSound
+  ),
+  scrollZoneSize: getItem("scrollZoneSize", defaultConfigs.scrollZoneSize),
+};
+
+const selectedFiles = {
+  createTabSelectedSound: getItem(
+    "createTabSelectedSound",
+    defaultSounds.createTabSelectedSound
+  ),
+  closeTabSelectedSound: getItem(
+    "closeTabSelectedSound",
+    defaultSounds.closeTabSelectedSound
+  ),
+  dragTabSelectedSound: getItem(
+    "dragTabSelectedSound",
+    defaultSounds.dragTabSelectedSound
+  ),
+  dropTabSelectedSound: getItem(
+    "dropTabSelectedSound",
+    defaultSounds.dropTabSelectedSound
+  ),
+  sendMessageSelectedSound: getItem(
+    "sendMessageSelectedSound",
+    defaultSounds.sendMessageSelectedSound
+  ),
+};
+
+
+
 const descriptions = {
   terminalchat: "Contenido largo y detallado del Tooltip 1.",
   soundselect: "Select a sound",
@@ -10,13 +64,6 @@ const descriptions = {
     "The Auto-Scroll Zone Size setting allows adjusting the automatic scrolling of content when the user approaches a certain distance from the bottom of the chat.",
 };
 
-const selectedSounds = {
-  createTabSelectedSound: "Sound2.mp3",
-  closeTabSelectedSound: "Sound1.mp3",
-  dragTabSelectedSound: "Sound3.mp3",
-  dropTabSelectedSound: "Sound4.mp3",
-  sendMessageSelectedSound: "Sound5.mp3",
-}
 
 const managerFiles = [
   {
@@ -84,6 +131,32 @@ const managerFiles = [
     }
   }
 ];
+
+
+function getItem(key, defaultValue) {
+  const storedValue = localStorage.getItem(key);
+  try {
+    const parsedValue = JSON.parse(storedValue);
+    console.log(storedValue);
+
+    return parsedValue !== null ? parsedValue : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+}
+
+function recoverConfigs() {
+  scrollRange.value = configs["scrollZoneSize"];
+  rangeParagraph.innerHTML = scrollRange.value + "px";
+
+  checkboxes.forEach((checkbox) => {
+    let configname = checkbox.dataset.variable;
+    checkboxvalue = configs[configname];
+    checkbox.checked = checkboxvalue;
+  });
+}
+
+
 function soundRep(soundname) {
   var soundpath = "./sounds/" + soundname;
   var audio = new Audio(soundpath);

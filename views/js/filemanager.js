@@ -1,7 +1,6 @@
 const filemanagerdiv = document.getElementById("filemanager");
 const filemanagerbuttons = document.querySelectorAll(".openManagerBtn");
 const files = document.getElementById("mngrFiles");
-const groups = document.getElementById("mngrGroups");
 const title = document.getElementById("mngrTitle");
 
 
@@ -43,39 +42,39 @@ function closeFileManager() {
 }
 
 function setFileManager(target) {
+  
+  // console.log(managerType);
+  
+  // let groupRepository = managerFiles[0][managerType + "Group"];
+  
+  // for (const groupName in groupRepository) {
+    //   const groupDetails = groupRepository[groupName];
+    //   const groupCategory = groupDetails.category;
+    
+    //   const groupTemplate = `     
+    //   <div onclick="goToCategory('${groupCategory}')" class="group ${groupCategory}">
+    //   <p>${groupName}</p>
+    //   <i class="fa-solid fa-circle"></i>
+    //   </div>`;
+    
+    //   groups.innerHTML += groupTemplate;
+    // }
   files.innerHTML = "";
-  groups.innerHTML = "";
+  let fileVariable = target.dataset.variable;
   let managerType = target.dataset.type;
-  let SoundVariable = target.dataset.variable;
-
-  console.log(managerType);
-
   let repository = managerFiles[0][managerType];
-  let groupRepository = managerFiles[0][managerType + "Group"];
-
-  for (const groupName in groupRepository) {
-    const groupDetails = groupRepository[groupName];
-    const groupCategory = groupDetails.category;
-
-    const groupTemplate = `     
-      <div onclick="goToCategory('${groupCategory}')" class="group ${groupCategory}">
-        <p>${groupName}</p>
-        <i class="fa-solid fa-circle"></i>
-      </div>`;
-
-    groups.innerHTML += groupTemplate;
-  }
-
+  
   for (const fileName in repository) {
     const fileDetails = repository[fileName];
     const filePath = fileDetails.path;
     const fileCategory = fileDetails.category;
-
-    let icon = filePath.endsWith(".mp3") ? "fa-music" : "fa-brush";
-
-    let isSelected = selectedSounds[SoundVariable] === filePath;
-    let selectedClass = isSelected ? "selected" : "";
-    console.log(`Seleccionado ${isSelected} ${selectedSounds[SoundVariable]} ${SoundVariable}`)
+    
+    let isSelected = selectedFiles[fileVariable] === filePath;
+    let selectedClass = isSelected ? 'check' : "";
+    defaultfile = filePath.endsWith(".mp3") ? "sound" : "theme"
+    icon = isSelected ? 'check' : filePath.endsWith(".mp3") ? "music" : "brush"
+    
+    console.log(`Seleccionado ${isSelected} ${selectedFiles[fileVariable]} ${fileVariable}`)
 
     title.innerHTML = filePath.endsWith(".mp3")
       ? "Select a sound"
@@ -84,10 +83,10 @@ function setFileManager(target) {
 
     const fileTemplate = `
       <div class="file">
-        <div class="filebox ${fileCategory}">
-          <i class="fa-solid ${icon}"></i>
+        <div class="filebox ${fileCategory} ${selectedClass}" data-variable="${defaultfile}" onclick="SelectFile(event, '${fileVariable}', '${fileName}.mp3')">
+          <i class="fa-solid fa-${icon}"></i>
         </div>
-        <p>${fileName} ${selectedClass}</p>
+        <p>${fileName}</p>
       </div>`;
 
     files.innerHTML += fileTemplate;
@@ -98,6 +97,25 @@ function setFileManager(target) {
   }
 }
 
+
+function SelectFile(event, filevariable, file) {
+    event.stopPropagation()
+    selectedFiles[filevariable] = file
+    localStorage.setItem(filevariable, JSON.stringify(file))
+
+
+    thisbox = event.currentTarget
+    document.querySelectorAll(".check").forEach((filebox)=>{
+      if (filebox.classList.contains('check')){
+        filebox.classList.remove('check')
+        oldicon = filebox.dataset.variable == 'sound' ? 'music' :'brush'
+        filebox.innerHTML = `<i class="fa-solid fa-${oldicon}"></i>`
+      }
+    })
+    thisbox.classList.add('check')
+    thisbox.innerHTML = '<i class="fa-solid fa-check"></i>'
+}
+
 function goToCategory(category){
     const toCategoryScroll = files.querySelector(`.${category}`)
     if (toCategoryScroll){
@@ -105,8 +123,7 @@ function goToCategory(category){
     }
 }
 
-filemanagerbuttons.forEach((button) => {
-  button.addEventListener("click", (event) => {
+function setupFileManager(event){
     let target = event.target.closest(".openManagerBtn");
     currentFolder = target.querySelector(".fa-solid")
     currentFolder.className = 'fa-solid fa-folder-open'
@@ -115,12 +132,8 @@ filemanagerbuttons.forEach((button) => {
     soundRep('Sound5.mp3')
     setFileManager(target);
     openFileManager(event)
-  });
+}
 
-  // button.addEventListener('onmouseleave', (event) =>{
-  //     openFileManager()
-  // })
-});
 
 document.addEventListener("mousedown", (event) => {
   var clickOnDiv = filemanagerdiv.contains(event.target);
@@ -135,8 +148,8 @@ document.addEventListener("mousedown", (event) => {
   }
 });
 
-configModal.addEventListener("wheel", (event) => {
-  if (filemanageropened) {
-    closeFileManager();
-  }
-});
+// configModal.addEventListener("wheel", (event) => {
+//   if (filemanageropened) {
+//     closeFileManager();
+//   }
+// });
