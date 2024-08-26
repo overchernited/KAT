@@ -101,10 +101,7 @@ function soundRep(soundname) {
 
 function toggleSlider(slider, action) {
   effectsound = slider.checked
-    ? "./sounds/Sound8.mp3"
-    : "./sounds/Sound8.mp3";
-  var effect = new Audio(effectsound);
-  effect.play();
+  soundRep('Sound8.mp3')
 
   action(slider);
 }
