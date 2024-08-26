@@ -148,16 +148,23 @@ ipcMain.on("run-cmd", (event, { command, idx }) => {
   const cmd = spawn(command, { shell: true });
 
   let output = "";
+  let hasError = false;
+
   cmd.stdout.on("data", (data) => {
     output += data.toString();
   });
 
   cmd.stderr.on("data", (data) => {
-    output += `Error: ${data.toString()}`;
+    hasError = true;
+    output += `${data.toString()}`;
   });
 
   cmd.on("close", (code) => {
-    event.reply("cmd-output", { type: "info", idx, message: output });
+    event.reply("cmd-output", {
+      type: hasError ? "error" : "info",
+      idx,
+      message: output,
+    });
   });
 });
 
