@@ -11,14 +11,13 @@ function changueAutoScrollZone() {
   console.log(configs["scrollZoneSize"]);
 }
 
-function soundChangeHandler(slider) {
+function variableChangeHandler(slider) {
   var variableToChange = slider.dataset.variable;
 
-  changeSoundValue(variableToChange, slider.checked);
-  console.log("Cambio en", variableToChange + ":", configs[variableToChange]);
+  storageSliderValue(variableToChange, slider.checked);
 }
 
-function changeSoundValue(variableToChange, newValue) {
+function storageSliderValue(variableToChange, newValue) {
   configs[variableToChange] = newValue;
   localStorage.setItem(variableToChange, newValue);
 }

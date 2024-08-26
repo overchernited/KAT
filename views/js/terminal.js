@@ -1,5 +1,5 @@
-const decoder = new TextDecoder('utf-8');
-const py = window.modules.py
+// const decoder = new TextDecoder('utf-8');
+// const py = window.modules.py
 
 
 let messagesBuffer = [];
@@ -39,7 +39,9 @@ const logToTerminal = (message, type = 'message', terminalid) => {
   `;
   terminal.appendChild(outputDiv);
   let isNearBottom = terminal.scrollHeight - terminal.scrollTop <= terminal.clientHeight + configs["scrollZoneSize"];
-  if (isNearBottom) {
+  if (isNearBottom && configs["AlwaysScroll"] == false) {
+    outputDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  } else if (configs["AlwaysScroll"] == true){
     outputDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
   console.log(isNearBottom)
@@ -112,6 +114,13 @@ const processMessagesBuffer = () => {
   }
 };
 
+window.electron.onCmdOutput((data) => {
+  const {type, idx, message} = data;
+  const formattedMessage = message.replace(/(\r\n|\n|\r)/g, '<br>');
+  console.log(message, formattedMessage, messagesBuffer)
+  messagesBuffer.push({ message: formattedMessage, type: type, id: idx });
+  processMessagesBuffer();
+});
 // Credits, Info, ETC // No relevant code
 
 const versionTemplate = 

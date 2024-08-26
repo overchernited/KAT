@@ -29,7 +29,7 @@
     flex-direction: column;
     font-family: 'Inter', sans-serif;
     font-weight: 200;
-    color:#fff;
+    color:var(--font-color);
     position: absolute;
     padding: .4rem;
     top: 50%;

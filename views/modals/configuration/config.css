@@ -1,3 +1,12 @@
+.configMainDiv{
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+
+
 .configTitle {
     font-size: 20px;
     margin: 10px;
@@ -11,16 +20,18 @@
 .subconfig {
     background-color: var(--main-color);
     max-height: 50%;
+    min-height: 5%;
     width: 70%;
+    margin: 10px;
     border-radius: 10px;
-    padding: .5rem;
+    padding: .4rem;
 }
 
 .configSubTitle {
     color: var(--font-color);
     font-weight: 300;
-    margin: 10px;
     font-family: 'Inter', sans-serif;
+    margin: 5px;
 }
 
 .subdivisionTitle {
@@ -42,7 +53,7 @@
     flex-direction: column;
 }
 
-.sound{
+.groupbox{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -53,14 +64,15 @@
     border-radius: 10px;
 }
 
-.soundTitle{
+.boxtitle{
     justify-content: left;
     align-items: center;
-    color: #fff;
+    color: var(--font-color);
     font-family: 'Inter', sans-serif;
 }
 
 .descriptions{
+    color: var(--font-color);
     display: inline-block;
     height: max-content;
     width: max-content;

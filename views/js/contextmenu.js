@@ -96,5 +96,5 @@ function reloadwindow() {
 }
 
 function openDevTools() {
-    window.modules.api.send('devtools')
+    window.electron.send('devtools')
 }

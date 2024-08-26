@@ -29,8 +29,8 @@ document.addEventListener('keydown', function (event) {
             processAction(() => createTab(currentTerminal));
         } else if (event.key === 'Tab') {
             moveTab()
-        } else if (event.key === 'b'){
-            collapseModulesTab();
+        } else if (event.key === 'i'){
+            window.electron.openDevTools()
         }
     }
     if (!processingAction && altPressed) {

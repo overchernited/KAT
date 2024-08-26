@@ -7,6 +7,7 @@ const defaultConfigs = {
   dragTabSound: true,
   dropTabSound: true,
   sendMessageSound: true,
+  AlwaysScroll: false,
   scrollZoneSize: 300,
 };
 
@@ -28,6 +29,7 @@ let configs = {
     defaultConfigs.sendMessageSound
   ),
   scrollZoneSize: getItem("scrollZoneSize", defaultConfigs.scrollZoneSize),
+  AlwaysScroll: getItem("AlwaysScroll", defaultConfigs.AlwaysScroll)
 };
 
 const selectedFiles = {
@@ -57,80 +59,14 @@ const selectedFiles = {
 
 const descriptions = {
   terminalchat: "Contenido largo y detallado del Tooltip 1.",
-  soundselect: "Select a sound",
+  select: "Select a file",
   sounds:
     "La configuracion sobre los sonidos que se ejecutan al realizar ciertas acciones dentro de la terminal",
   autoscrollzone:
     "The Auto-Scroll Zone Size setting allows adjusting the automatic scrolling of content when the user approaches a certain distance from the bottom of the chat.",
+    alwaysscroll:
+    'The Always-Scroll option, disables the "Auto-Scroll Zone Size" setting, by scrolling automatic to the bottom of the chat forever.'
 };
-
-
-const managerFiles = [
-  {
-    themesRepositoryGroup:{
-      "Themes":{
-        category: "yellow"
-      }
-    },
-    soundsRepositoryGroup:{
-      "Create Tab":{
-        category: "green"
-      },
-      "Close Tab":{
-        category: "red"
-      },
-      "Drag Tab":{
-        category: "blue"
-      },
-      "Drop Tab":{
-        category: "purple"
-      },
-      "Send Message":{
-        category: "yellow"
-      }
-    },
-    soundsRepository: {
-      "Sound1": {
-        path: "Sound1.mp3",
-        category: "blue"
-      },
-      "Sound2": {
-        path: "Sound2.mp3",
-        category: "blue"
-      },
-      "Sound3": {
-        path: "Sound3.mp3",
-        category: "blue"
-      },
-      "Sound4": {
-        path: "Sound4.mp3",
-        category: "blue"
-      },
-      "Sound5": {
-        path: "Sound5.mp3",
-        category: "purple"
-      },
-      "Sound6": {
-        path: "Sound6.mp3",
-        category: "purple"
-      },
-      "Sound7": {
-        path: "Sound7.mp3",
-        category: "purple"
-      },
-      "Sound8": {
-        path: "Sound8.mp3",
-        category: "purple"
-      }
-    },
-    themesRepository: {
-      "Theme1":{
-        path: "/ruta",
-        category: "yellow"
-      }
-    }
-  }
-];
 
 
 function getItem(key, defaultValue) {
@@ -158,7 +94,7 @@ function recoverConfigs() {
 
 
 function soundRep(soundname) {
-  var soundpath = "./sounds/" + soundname;
+  var soundpath = "../sounds/" + soundname;
   var audio = new Audio(soundpath);
   audio.play();
 }

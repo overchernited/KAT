@@ -142,16 +142,23 @@ splits.forEach(split => {
 
 function sendMessageFromChatField(idx) {
   const chatfield = document.getElementById(`chatInput-terminal-${idx}`);
-  message = chatfield.value
-  if (message != '' && idx == currentTerminal) {
-    if (configs["sendMessageSound"] === true){
-      soundRep(selectedFiles["sendMessageSelectedSound"])
+  const message = chatfield.value;
+  
+  if (message !== '' && idx === currentTerminal) {
+    if (configs["sendMessageSound"] === true) {
+      soundRep(selectedFiles["sendMessageSelectedSound"]);
     }
+
     messagesBuffer.push({ message, type: 'message', id: idx });
     processMessagesBuffer();
-    chatfield.value = ''
+    chatfield.value = '';
+    
+    // Envía el mensaje y el índice al proceso principal
+    window.electron.runCmd({ command: message, idx });
   }
 }
+
+
 
 document.addEventListener('keydown', function (event) {
   const actualField = document.getElementById(`chatInput-terminal-${currentTerminal}`)

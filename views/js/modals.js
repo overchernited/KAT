@@ -36,6 +36,10 @@ function openModal(view){
         loadView(view)
     } else{
         closeModal()
+        setTimeout(() => {
+            openModal(view)
+            
+        }, 200);
     }
 
 
@@ -64,5 +68,3 @@ function loadScript(src) {
     script.onerror = () => console.error(`Failed to load ${src}`);
     document.body.appendChild(script);
 }
-
-// modalCloseButton.addEventListener('click', closeModal)

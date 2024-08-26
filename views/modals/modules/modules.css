@@ -1,0 +1,28 @@
+.module_template {
+    font-weight: 200;
+    font-family: 'Inter', sans-serif;
+    margin: 12 auto;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px var(--border-colors) solid;
+    font-size: 1.4vw;
+    text-align: center;
+    width: 80%;
+    background-color: var(--main-color);
+    color: var(--font-color);
+  }
+  
+.modules_template{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .modulesTitle {
+    font-size: 1.7vw;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    color: var(--font-color);
+    margin: 1 auto;
+    margin-top: 55px;
+  }

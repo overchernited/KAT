@@ -3,7 +3,6 @@ const filemanagerbuttons = document.querySelectorAll(".openManagerBtn");
 const files = document.getElementById("mngrFiles");
 const title = document.getElementById("mngrTitle");
 
-
 let currentFolder;
 
 let filemanageropened = false;
@@ -41,104 +40,68 @@ function closeFileManager() {
   filemanageropened = false;
 }
 
-function setFileManager(target) {
-  
-  // console.log(managerType);
-  
-  // let groupRepository = managerFiles[0][managerType + "Group"];
-  
-  // for (const groupName in groupRepository) {
-    //   const groupDetails = groupRepository[groupName];
-    //   const groupCategory = groupDetails.category;
-    
-    //   const groupTemplate = `     
-    //   <div onclick="goToCategory('${groupCategory}')" class="group ${groupCategory}">
-    //   <p>${groupName}</p>
-    //   <i class="fa-solid fa-circle"></i>
-    //   </div>`;
-    
-    //   groups.innerHTML += groupTemplate;
-    // }
-  files.innerHTML = "";
+function setFileManager(target, folder, ext, func) {
   let fileVariable = target.dataset.variable;
-  let managerType = target.dataset.type;
-  let repository = managerFiles[0][managerType];
+  let managerType = target.dataset.key;
   
-  for (const fileName in repository) {
-    const fileDetails = repository[fileName];
-    const filePath = fileDetails.path;
-    const fileCategory = fileDetails.category;
-    
-    let isSelected = selectedFiles[fileVariable] === filePath;
-    let selectedClass = isSelected ? 'check' : "";
-    defaultfile = filePath.endsWith(".mp3") ? "sound" : "theme"
-    icon = isSelected ? 'check' : filePath.endsWith(".mp3") ? "music" : "brush"
-    
-    console.log(`Seleccionado ${isSelected} ${selectedFiles[fileVariable]} ${fileVariable}`)
 
-    title.innerHTML = filePath.endsWith(".mp3")
-      ? "Select a sound"
-      : "Select a theme";
+    window.electron.loadFiles(folder, ext);
+    window.electron.onFilesLoaded((FileArray) => {
+      files.innerHTML = "";
+      FileArray.forEach((file) => {
+        selectedClass = (selectedFiles[fileVariable] === file.file) ? 'check' : 'file'
+        const fileTemplate = `
+        <div class="file">
+          <div class="filebox blue ${selectedClass}" onclick="${func}(event, '${fileVariable}', '${file.file}', ${file.path}">
+            <i class="fa-solid fa-${selectedClass}"></i>
+          </div>
+          <p>${file.file}</p>
+        </div>`;
 
-
-    const fileTemplate = `
-      <div class="file">
-        <div class="filebox ${fileCategory} ${selectedClass}" data-variable="${defaultfile}" onclick="SelectFile(event, '${fileVariable}', '${fileName}.mp3')">
-          <i class="fa-solid fa-${icon}"></i>
-        </div>
-        <p>${fileName}</p>
-      </div>`;
-
-    files.innerHTML += fileTemplate;
-    console.log("Nombre:", fileName);
-    console.log("Ruta:", filePath);
-    console.log("Categoría:", fileCategory);
-    console.log("----------------------");
-  }
+        files.innerHTML += fileTemplate;
+      });
+    });
 }
 
+function SelectFile(event, filevariable, file, path) {
+  selectedFiles[filevariable] = file;
+  localStorage.setItem(filevariable, JSON.stringify(file));
 
-function SelectFile(event, filevariable, file) {
-    event.stopPropagation()
-    selectedFiles[filevariable] = file
-    localStorage.setItem(filevariable, JSON.stringify(file))
-
-
-    thisbox = event.currentTarget
-    document.querySelectorAll(".check").forEach((filebox)=>{
-      if (filebox.classList.contains('check')){
-        filebox.classList.remove('check')
-        oldicon = filebox.dataset.variable == 'sound' ? 'music' :'brush'
-        filebox.innerHTML = `<i class="fa-solid fa-${oldicon}"></i>`
-      }
-    })
-    thisbox.classList.add('check')
-    thisbox.innerHTML = '<i class="fa-solid fa-check"></i>'
-}
-
-function goToCategory(category){
-    const toCategoryScroll = files.querySelector(`.${category}`)
-    if (toCategoryScroll){
-        toCategoryScroll.scrollIntoView({ behavior: 'smooth' });
+  thisbox = event.currentTarget;
+  document.querySelectorAll(".check").forEach((filebox) => {
+    if (filebox.classList.contains("check")) {
+      filebox.classList.remove("check");
+      filebox.innerHTML = `<i class="fa-solid fa-file"></i>`;
     }
+  });
+  thisbox.classList.add("check");
+  thisbox.innerHTML = '<i class="fa-solid fa-check"></i>';
 }
 
-function setupFileManager(event){
-    let target = event.target.closest(".openManagerBtn");
-    currentFolder = target.querySelector(".fa-solid")
-    currentFolder.className = 'fa-solid fa-folder-open'
-    console.log(event);
-    event.stopPropagation();
-    soundRep('Sound5.mp3')
-    setFileManager(target);
-    openFileManager(event)
-}
+function setupFileManager(event) {
+  let target = event.target.closest(".openManagerBtn");
+  let dataType = target.dataset.type;
+  console.log(dataType)
 
+  const [f, e, fu] = dataType.split('/');
+
+  let folder = f;
+  let ext = e;
+  let func = fu;
+
+  currentFolder = target.querySelector(".fa-solid");
+  currentFolder.className = "fa-solid fa-folder-open";
+  console.log(event);
+  event.stopPropagation();
+  soundRep("Sound5.mp3");
+  setFileManager(target, folder, ext, func);
+  openFileManager(event);
+}
 
 document.addEventListener("mousedown", (event) => {
   var clickOnDiv = filemanagerdiv.contains(event.target);
-  if (currentFolder){
-    currentFolder.className = 'fa-solid fa-folder'
+  if (currentFolder) {
+    currentFolder.className = "fa-solid fa-folder";
   }
   var hasOpenManagerBtnClass =
     event.target.classList.contains("openManagerBtn");
