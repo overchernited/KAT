@@ -52,7 +52,7 @@ function setFileManager(target, folder, ext, func) {
         selectedClass = (selectedFiles[fileVariable] === file.file) ? 'check' : 'file'
         const fileTemplate = `
         <div class="file">
-          <div class="filebox blue ${selectedClass}" onclick="${func}(event, '${fileVariable}', '${file.file}', ${file.path}">
+          <div class="filebox blue ${selectedClass}" onclick="${func}(event, '${fileVariable}', '${file.file}', '${file.path}')">
             <i class="fa-solid fa-${selectedClass}"></i>
           </div>
           <p>${file.file}</p>
