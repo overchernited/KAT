@@ -9,6 +9,7 @@ const defaultConfigs = {
   sendMessageSound: true,
   AlwaysScroll: false,
   scrollZoneSize: 300,
+  selectedTheme: "default.css",
 };
 
 const defaultSounds = {
@@ -29,7 +30,7 @@ let configs = {
     defaultConfigs.sendMessageSound
   ),
   scrollZoneSize: getItem("scrollZoneSize", defaultConfigs.scrollZoneSize),
-  AlwaysScroll: getItem("AlwaysScroll", defaultConfigs.AlwaysScroll)
+  AlwaysScroll: getItem("AlwaysScroll", defaultConfigs.AlwaysScroll),
 };
 
 const selectedFiles = {
@@ -53,9 +54,8 @@ const selectedFiles = {
     "sendMessageSelectedSound",
     defaultSounds.sendMessageSelectedSound
   ),
+  selectedTheme: getItem("selectedTheme", defaultConfigs.selectedTheme),
 };
-
-
 
 const descriptions = {
   terminalchat: "Contenido largo y detallado del Tooltip 1.",
@@ -64,10 +64,9 @@ const descriptions = {
     "La configuracion sobre los sonidos que se ejecutan al realizar ciertas acciones dentro de la terminal",
   autoscrollzone:
     "The Auto-Scroll Zone Size setting allows adjusting the automatic scrolling of content when the user approaches a certain distance from the bottom of the chat.",
-    alwaysscroll:
-    'The Always-Scroll option, disables the "Auto-Scroll Zone Size" setting, by scrolling automatic to the bottom of the chat forever.'
+  alwaysscroll:
+    'The Always-Scroll option, disables the "Auto-Scroll Zone Size" setting, by scrolling automatic to the bottom of the chat forever.',
 };
-
 
 function getItem(key, defaultValue) {
   const storedValue = localStorage.getItem(key);
@@ -92,6 +91,10 @@ function recoverConfigs() {
   });
 }
 
+function recoverTheme() {
+  theme = document.getElementById('theme')
+  theme.href = `../themes/${selectedFiles["selectedTheme"]}`;
+}
 
 function soundRep(soundname) {
   var soundpath = "../sounds/" + soundname;
@@ -100,8 +103,8 @@ function soundRep(soundname) {
 }
 
 function toggleSlider(slider, action) {
-  effectsound = slider.checked
-  soundRep('Sound8.mp3')
+  effectsound = slider.checked;
+  soundRep("Sound8.mp3");
 
   action(slider);
 }
@@ -110,7 +113,7 @@ function showTooltip(element) {
   if (tooltiped == false) {
     tooltipDiv.style.display = "block";
     setTimeout(() => {
-      tooltipDiv.classList.add('tooltiped')
+      tooltipDiv.classList.add("tooltiped");
       tooltipDiv.style.opacity = "1";
     }, 5);
 
@@ -121,25 +124,67 @@ function showTooltip(element) {
 
     const tooltipHeight = tooltipDiv.offsetHeight;
     const tooltipWidth = tooltipDiv.offsetWidth;
-    
+
     const cursorX = event.clientX;
     const cursorY = event.clientY;
 
     tooltipDiv.style.top = `${cursorY - tooltipHeight}px`;
     tooltipDiv.style.left = `${cursorX + 10}px`;
   }
-  tooltiped = true
+  tooltiped = true;
 }
 
 function hideTooltip(event) {
   if (tooltiped == true) {
     const tooltipHeight = tooltipDiv.offsetHeight;
     tooltipDiv.style.top = `${event.clientY - tooltipHeight}px`;
-    tooltipDiv.style.opacity = "0"
-    
+    tooltipDiv.style.opacity = "0";
+
     setTimeout(() => {
-      tooltipDiv.style.display = 'none'
-      tooltiped = false
+      tooltipDiv.style.display = "none";
+      tooltiped = false;
     }, 85);
   }
 }
+
+function loadTheme(event, filevariable, file, path, folder) {
+  theme = document.getElementById('theme')
+  console.log(folder);
+  selectedFiles[filevariable] = file;
+  console.log(filevariable, file)
+  localStorage.setItem(filevariable, JSON.stringify(file));
+  theme.href = `../themes/${file}`
+}
+
+
+window.addEventListener('load', function() {
+  // Llamar al método loadModules de electron cuando la página se ha cargado
+  window.electron.loadModules();
+});
+
+
+
+window.electron.onModulesLoaded((modulesList) => {
+  // Imprimir los módulos válidos para verificar
+  console.log('Módulos válidos:', modulesList);
+
+  // Verificar si el modal está cerrado antes de ejecutar los scripts
+  if (!modalOpen) {
+    // Procesar cada módulo
+    modulesList.forEach((module) => {
+      const { scriptContent, folder, file } = module;
+      
+      // Imprimir el nombre del módulo y el contenido del script
+      console.log(`Ejecutando script del módulo: ${folder}/${file}`);
+      
+      try {
+        eval(scriptContent);
+        console.log(`El módulo ${folder}/${file} se ejecutó con éxito.`);
+      } catch (error) {
+        console.error(`Error al ejecutar el módulo ${folder}/${file}:`, error);
+      }
+    });
+  }
+});
+
+recoverTheme()
