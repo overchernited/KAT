@@ -85,7 +85,6 @@ function createWindow() {
             const extname = path.extname(mainFile);
     
             if (extname === ".js") {
-              // Leer el contenido del archivo main.js
               const scriptContent = fs.readFileSync(filePath, "utf-8");
     
               validModules.push({
@@ -93,7 +92,7 @@ function createWindow() {
                 file: mainFile,
                 path: filePath,
                 type: extname,
-                scriptContent: scriptContent  // Añadir el contenido del script aquí
+                scriptContent: scriptContent
               });
               console.log(
                 "Módulo válido encontrado:",
@@ -105,7 +104,7 @@ function createWindow() {
       });
     
       console.log("Valid Modules", validModules);
-      event.sender.send("modulesLoaded", validModules);  // Enviar los módulos válidos con el contenido del script
+      event.sender.send("modulesLoaded", validModules);
     } catch (error) {
       console.error("Error while loading modules:", error);
     }
@@ -113,7 +112,6 @@ function createWindow() {
 
   ipcMain.on("loadFiles", (event, { folderName, validExtensions }) => {
 
-    // Construye la ruta completa a partir del directorio actual y el nombre de la carpeta
     const folderPath = path.join(__dirname, folderName);
     const validFiles = [];
 
