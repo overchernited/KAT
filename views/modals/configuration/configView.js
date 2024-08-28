@@ -9,7 +9,7 @@ const configTemplate = `<div class="configMainDiv">
         <i class="fa-solid fa-circle-info"></i>
       </div>
     </div>
-    <button class="openManagerBtn" onclick="setupFileManager(event)" data-variable="theme" data-type="themes/.css/PrintFile" data-key="select" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
+    <button class="openManagerBtn" onclick="setupFileManager(event)" data-variable="selectedTheme" data-type="themes/.css/loadTheme" data-key="select" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
   </div>
   <div class="subconfig">
     <div class="configSubTitle"> 
