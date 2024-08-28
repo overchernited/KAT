@@ -1,29 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-:root {
-  --accentuation-color:#51a4f8;
-
-
-  --background: #141414;
-  --main-color: #0f0e0e;
-  --card-border: #242424;
-  --alpha-color: #0f0e0e9d;
-  --selection-background: #fff;
-  --selection-font: #000;
-  --border-colors: #777;
-  --font-color: #fff;
-  --track-color: #2b2b2b;
-  --info-color: #51a4f8;
-  --error-color: #fa4d4d;
-  --warning-color: #fac636;
-  --context-color: #1b1b1b;
-
-  --minimize-btn-color: #ffbd2e;
-  --close-btn-color: #ff5f56;
-  --resize-btn-color: #05b7e4;
-  --dev-btn-color: #fff;
-}
-
 * {
   margin: 0;
   -webkit-user-select: none;
@@ -68,7 +44,6 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   color: var(--font-color);
-  border: none;
   outline: none;
   z-index: 30;
   background-color: transparent;
@@ -94,8 +69,8 @@ body {
   height: 75%;
   padding: 0 0.8rem 0 0.8rem;
   background-color: var(--main-color);
-  border: 1px var(--main-color) solid;
-  color: #fff;
+  border: 1px transparent solid;
+  color: var(--font-color);
   box-sizing: border-box;
   cursor: pointer;
   transition: border .2s ease-in-out, background-color .2s ease-in-out;
@@ -151,7 +126,7 @@ body {
 .closetab {
   text-align: right;
   border: none;
-  color: #fff;
+  color: var(--font-color);
   font-size: 1.2vw;
   background-color: transparent;
   align-self: flex-end;
@@ -239,6 +214,7 @@ body {
 /* Contenedor principal y módulos */
 .container {
   display: flex;
+  overflow-x: auto;
   flex-direction: row-reverse;
   width: 100%;
   height: 100%;
@@ -302,7 +278,7 @@ body {
   background-color: var(--main-color);
   width: 100%;
   height: 50px;
-  color: #fff;
+  color: var(--font-color);
   border-radius: 100px;
   margin-top: 20px;
   padding-left: 20px;
@@ -325,49 +301,4 @@ body {
 
 .empty {
   opacity: 1;
-}
-
-
-.collapseModules {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--main-color);
-  border: 1px var(--border-colors) solid;
-  color: var(--font-color);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 1.5vw;
-  cursor: pointer;
-  z-index: 1;
-  /* Asegura que esté por encima del contenido desplazable */
-  transition: height .4s ease, width .4s ease, transform .4s ease;
-
-}
-
-.collapsed {
-  left: 0;
-}
-
-.tabcollapsed {
-  width: 0;
-  padding: 0;
-}
-
-@media (max-width:850px) {
-  .collapseModules {
-    left: calc(31vw);
-    width: 35px;
-    height: 35px;
-  }
-
-  .collapsed {
-    left: 0;
-  }
-
-  .tabcollapsed {
-    width: 0;
-    padding: 0;
-  }
 }
