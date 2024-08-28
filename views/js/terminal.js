@@ -147,5 +147,3 @@ const versionTemplate =
 `
 
 console.info(versionTemplate)
-console.warn('xd')
-console.error('xd2')
