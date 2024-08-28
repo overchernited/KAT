@@ -65,32 +65,35 @@ function createWindow() {
   });
 
   ipcMain.on("loadModules", (event) => {
-    console.log("xd2");
     const moduleFolderPath = path.join(__dirname, "modules");
     const validModules = [];
-
+    
     try {
       console.log("Cargando módulos desde:", moduleFolderPath);
       fs.readdirSync(moduleFolderPath).forEach((folder) => {
         const folderPath = path.join(moduleFolderPath, folder);
         console.log("Examinando carpeta:", folderPath);
-
+    
         if (fs.statSync(folderPath).isDirectory()) {
           const filesInFolder = fs.readdirSync(folderPath);
           const mainFile = filesInFolder.find((file) =>
-            ["main.js", "main.bat", "main.py"].includes(file.toLowerCase())
+            file.toLowerCase() === "main.js"
           );
-
+    
           if (mainFile) {
             const filePath = path.join(folderPath, mainFile);
             const extname = path.extname(mainFile);
-
-            if ([".js", ".bat", ".py"].includes(extname)) {
+    
+            if (extname === ".js") {
+              // Leer el contenido del archivo main.js
+              const scriptContent = fs.readFileSync(filePath, "utf-8");
+    
               validModules.push({
                 folder: folder,
                 file: mainFile,
                 path: filePath,
                 type: extname,
+                scriptContent: scriptContent  // Añadir el contenido del script aquí
               });
               console.log(
                 "Módulo válido encontrado:",
@@ -100,27 +103,26 @@ function createWindow() {
           }
         }
       });
-
-      console.log("Módulos válidos:", validModules);
-      event.sender.send("modulesLoaded", validModules);
+    
+      console.log("Valid Modules", validModules);
+      event.sender.send("modulesLoaded", validModules);  // Enviar los módulos válidos con el contenido del script
     } catch (error) {
-      console.error("Error al cargar módulos:", error);
+      console.error("Error while loading modules:", error);
     }
   });
 
   ipcMain.on("loadFiles", (event, { folderName, validExtensions }) => {
-    console.log("Cargando archivos...");
-    
+
     // Construye la ruta completa a partir del directorio actual y el nombre de la carpeta
     const folderPath = path.join(__dirname, folderName);
     const validFiles = [];
-  
+
     try {
-      console.log("Cargando archivos desde:", folderPath);
+      console.log("Loading Files from:", folderPath);
       fs.readdirSync(folderPath).forEach((file) => {
         const filePath = path.join(folderPath, file);
         const extname = path.extname(file).toLowerCase();
-  
+
         if (
           fs.statSync(filePath).isFile() &&
           validExtensions.includes(extname)
@@ -135,11 +137,11 @@ function createWindow() {
           );
         }
       });
-  
-      console.log("Archivos válidos:", validFiles);
+
+      console.log("Files", validFiles);
       event.sender.send("filesLoaded", validFiles);
     } catch (error) {
-      console.error("Error al cargar archivos:", error);
+      console.error("Error while loading files", error);
     }
   });
 }
