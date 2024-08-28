@@ -127,22 +127,42 @@ const versionTemplate =
 `
 <div>
     <p style="font-size:1.8vw; font-weight: 600;">Kat Terminal v1.0</p>
-    <p style="font-size:1.6vw; font-weight: 500;">Created and added features!</p>
+    <p style="font-size:1.6vw; font-weight: 500;">New Features Added!</p>
     <br>
-    <p style="font-size:1.25vw; font-weight: 500;">- Tabs: A system of tabs has been created and added with the app, in the right corner there<br>
-        the Create tab button which can create many terminal tabs.</p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Configuration Page:** A new configuration page has been added where you can manage various settings and preferences for the application.
+    </p>
     <br>
-    <p style="font-size:1.25vw; font-weight: 500;"> With them also have been added their shortcuts: </p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Tabs:** A tab system has been introduced, allowing you to create multiple terminal tabs. You can find the "Create Tab" button in the top right corner, which enables the creation of new tabs.
+    </p>
     <br>
-    <p style="font-size:1.25vw; font-weight: 600;"> Ctrl + N to create a tab </p>
-    <p style="font-size:1.25vw; font-weight: 600;"> Ctrl + W to delete the current tab </p>
-    <p style="font-size:1.25vw; font-weight: 600;"> Ctrl + Tab to move to the right tab </p>
-    <p style="font-size:1.25vw; font-weight: 600;"> Alt + W to delete all created tabs</p>
-    <p style="font-size:1.25vw; font-weight: 600;"> Ctrl + B to open the modules tab</p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Shortcuts:** New keyboard shortcuts have been added for easier tab management:
+    </p>
     <br>
-    <p style="font-size:1.25vw; font-weight: 500;"> - Modules: You can easily create your modules using the terminal methods. To install, simply drag and drop them into the 'modules' folder.</p>
-    <p style="font-size:1.25vw; font-weight: 500;"> - Contextual menu: Now includes functions like refreshing the application, showing the developer console, and managing tabs.</p>
-    <p style="font-size:1.25vw; font-weight: 500;">- Console messages (log, warn, error) are styled to appear in the terminal</p>
+    <p style="font-size:1.25vw; font-weight: 600;">Ctrl + N to create a new tab</p>
+    <p style="font-size:1.25vw; font-weight: 600;">Ctrl + W to close the current tab</p>
+    <p style="font-size:1.25vw; font-weight: 600;">Ctrl + Tab to switch to the next tab</p>
+    <p style="font-size:1.25vw; font-weight: 600;">Alt + W to close all tabs</p>
+    <p style="font-size:1.25vw; font-weight: 600;">Ctrl + B to open the modules tab</p>
+    <br>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Modules:** Easily create your own modules using terminal methods. To install a module, simply drag and drop it into the 'modules' folder.
+    </p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Contextual Menu:** The contextual menu now includes functions for refreshing the application, opening the developer console, and managing tabs.
+    </p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Console Messages:** Console messages (log, warn, error) are now styled to appear in the terminal.
+    </p>
+    <br>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Theme Functionality:** A new theme feature has been added to the configuration page. In the Kat Terminal folder, you’ll find a new directory where you can add your themes by editing the CSS variables.
+    </p>
+    <p style="font-size:1.25vw; font-weight: 500;">
+        - **Sound Customization:** You can now select different sounds for specific actions in the terminal. A new folder called 'sounds' has been added, where you can place and manage your custom sounds. Additionally, there is an option to manage automatic or persistent scrolling.
+    </p>
 </div>
 `
 
