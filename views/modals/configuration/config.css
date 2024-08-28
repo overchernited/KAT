@@ -43,7 +43,32 @@
 
 .rangeInput {
     width: 80%;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 25rem;
 }
+
+.rangeInput::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--background); /* Color del pulgar */
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+
+
+  .rangeInput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accentuation-color); /* Cambia este color */
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px; /* Alinea el pulgar con la barra */
+  }
 
 .sounds{
     width: 100%;
