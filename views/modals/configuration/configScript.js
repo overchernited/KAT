@@ -22,7 +22,4 @@ function storageSliderValue(variableToChange, newValue) {
   localStorage.setItem(variableToChange, newValue);
 }
 
-
-
-
 recoverConfigs();
