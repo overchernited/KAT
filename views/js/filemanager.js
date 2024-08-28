@@ -50,9 +50,10 @@ function setFileManager(target, folder, ext, func) {
       files.innerHTML = "";
       FileArray.forEach((file) => {
         selectedClass = (selectedFiles[fileVariable] === file.file) ? 'check' : 'file'
+        console.log(selectedFiles[fileVariable],file.file)
         const fileTemplate = `
         <div class="file">
-          <div class="filebox blue ${selectedClass}" onclick="${func}(event, '${fileVariable}', '${file.file}', '${file.path}')">
+          <div class="filebox blue ${selectedClass}" onclick="${func}(event, '${fileVariable}', '${file.file}', '${file.path}', '${folder}'), checkifbox(event)">
             <i class="fa-solid fa-${selectedClass}"></i>
           </div>
           <p>${file.file}</p>
@@ -63,10 +64,12 @@ function setFileManager(target, folder, ext, func) {
     });
 }
 
-function SelectFile(event, filevariable, file, path) {
+function SelectFile(event, filevariable, file, path, folder) {
   selectedFiles[filevariable] = file;
   localStorage.setItem(filevariable, JSON.stringify(file));
+}
 
+function checkifbox(event){
   thisbox = event.currentTarget;
   document.querySelectorAll(".check").forEach((filebox) => {
     if (filebox.classList.contains("check")) {
