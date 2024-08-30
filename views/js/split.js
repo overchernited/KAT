@@ -21,62 +21,63 @@ terminalsdict[1] = {
 
 function createTerminal(idxtt, idx) {
   terminalCount++;
-  currentTerminal = terminalCount
+  currentTerminal = terminalCount;
 
   terminalsdict[terminalCount] = {
     currentTabInTerminal: idx,
     tabsContent: {
       [idx]: {
         id: idx,
-        content: []
+        content: []  // Inicializar la pestaña con un array vacío
       }
     }
   };
 
-
-
   const previousTerminal = terminalsdict[idxtt];
   const tabToMove = previousTerminal.tabsContent[idx];
-  delete previousTerminal.tabsContent[idx];
-  previousTerminal.currentTabInTerminal = foundClosestTab(idxtt, idx)
+  
+  // Copiar el contenido de la pestaña original a la nueva pestaña
+  terminalsdict[currentTerminal].tabsContent[idx].content = [...tabToMove.content];
 
-  terminalsdict[currentTerminal].tabsContent[idx] = tabToMove;
+  delete previousTerminal.tabsContent[idx];
+  previousTerminal.currentTabInTerminal = foundClosestTab(idxtt, idx);
 
   const lastValue = Object.values(terminalsdict[idxtt].tabsContent).pop();
+  addElementsPushed(idxtt, lastValue.id)
 
-  addElementsPushed(idxtt, lastValue.id);
   const terminaltemplate =
     `   
-    <div class="chatContainer" id="terminalContainer-${terminalCount}">
-        <div class="tab_nav">
-          <img id="transparentCursor"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/EX+uOIAAAAASUVORK5CYII="
-            style="display: none;">
-          <div class="tabs" oncontextmenu="tabsContextMenu(${terminalCount}, event)" id="tabs-terminal-${terminalCount}">
-            <div class="tab" style="opacity: 1;" oncontextmenu="tabContext(event, ${terminalCount}, ${idx})" onclick="changeCurrentTabTo(${terminalCount},${idx})" id="tab${idx}">
-              <p>Splitted ${idx}</p>
-              <button class="closetab" onclick="closeTab(${terminalCount}, ${idx}, event)">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          </div>
-          <button class="createtab" id="createtab" onclick="createTab(${terminalCount})">
-            <i class="fa-solid fa-plus"></i>
+  <div class="chatContainer" id="terminalContainer-${terminalCount}">
+    <div class="tab_nav">
+      <img id="transparentCursor"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/EX+uOIAAAAASUVORK5CYII="
+      style="display: none;">
+      <div class="tabs" oncontextmenu="tabsContextMenu(${terminalCount}, event)" id="tabs-terminal-${terminalCount}">
+        <div class="tab" style="opacity: 1;" oncontextmenu="tabContext(event, ${terminalCount}, ${idx})" onclick="changeCurrentTabTo(${terminalCount},${idx})" id="tab${idx}">
+          <p>Splitted ${idx}</p>
+          <button class="closetab" onclick="closeTab(${terminalCount}, ${idx}, event)">
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div class="chat activedterminal" id="terminal-${terminalCount}">
-  
-        </div>
-  
-        <div class="chatControls" onclick="changeCurrentTabTo(${terminalCount}, terminalsdict[${terminalCount}].currentTabInTerminal)">
-          <div class="inputContainer">
-            <input class="chatInput" id="chatInput-terminal-${terminalCount}" type="text" placeholder=">_">
-          </div>
-          <button class="sendButton" onclick="sendMessageFromChatField(${terminalCount});" id="sendButton"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
       </div>
-    `
-  return terminaltemplate
+      <button class="createtab" id="createtab" onclick="createTab(${terminalCount})">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+    <div class="chat activedterminal" id="terminal-${terminalCount}">
+
+    </div>
+  
+    <div class="chatControls" onclick="changeCurrentTabTo(${terminalCount}, terminalsdict[${terminalCount}].currentTabInTerminal)">
+      <div class="inputContainer">
+        <input class="chatInput" id="chatInput-terminal-${terminalCount}" type="text" placeholder=">_">
+      </div>
+      <button class="sendButton" onclick="sendMessageFromChatField(${terminalCount});" id="sendButton"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+  `;
+
+  return { terminaltemplate, tab: terminalsdict[currentTerminal].tabsContent[idx] };
 }
 
 document.body.addEventListener('dragover', (event) => {
@@ -116,12 +117,14 @@ function handleDrop(event) {
 
   tab.remove();
   if (containerId == 'left') {
-      template = createTerminal(dataterminal, tabidx);
-      mainContainer.insertAdjacentHTML('afterbegin', template);
-  } else if (containerId == 'right') {
-      template = createTerminal(dataterminal, tabidx);
-      mainContainer.insertAdjacentHTML('beforeend', template);
-  }
+    const { terminaltemplate, tab } = createTerminal(dataterminal, tabidx);
+    mainContainer.insertAdjacentHTML('afterbegin', terminaltemplate);
+    addElementsPushed(currentTerminal, tab.id);
+} else if (containerId == 'right') {
+    const { terminaltemplate, tab } = createTerminal(dataterminal, tabidx);
+    mainContainer.insertAdjacentHTML('beforeend', terminaltemplate);
+    addElementsPushed(currentTerminal, tab.id);
+}
 
   let lastterminal = Object.keys(terminalsdict).length;
   changeCurrentTabTo(lastterminal, tabidx);
