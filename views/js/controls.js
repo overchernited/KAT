@@ -18,7 +18,7 @@ document.getElementById('minimizeButton').addEventListener('click', () => {
   
   // Manejo de eventos para botones de configuración y módulos
   document.getElementById('configButton').addEventListener('click', () => {
-    openModal('../views/modals/configuration/configview.js');
+    openModal('../views/modals/configuration/configView.js');
   });
   
   document.getElementById('modulesButton').addEventListener('click', () => {
