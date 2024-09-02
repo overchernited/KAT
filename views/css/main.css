@@ -333,26 +333,3 @@ body {
   font-family: 'Inter', Arial;
   color: #fff
 }
-
-.spinner {
-  height: 15vh;
-  width: 15vh;
-  border-radius: 50%;
-  background: conic-gradient(#fff 0% 25%, transparent 25% 100%);
-  animation: load .8s linear infinite;
-}
-
-@keyframes load {
-  0% {
-    transform: rotate(0deg);
-    animation-timing-function: ease-in; /* Primera velocidad */
-  }
-  50% {
-    transform: rotate(180deg);
-    animation-timing-function: linear; /* Segunda velocidad */
-  }
-  100% {
-    transform: rotate(360deg);
-    animation-timing-function: ease-in; /* Vuelve a la primera velocidad */
-  }
-}
