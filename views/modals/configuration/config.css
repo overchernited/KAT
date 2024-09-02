@@ -46,7 +46,6 @@
     appearance: none;
     background: transparent;
     cursor: pointer;
-    width: 25rem;
 }
 
 .rangeInput::-webkit-slider-runnable-track {

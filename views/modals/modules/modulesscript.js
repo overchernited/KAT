@@ -1,17 +1,39 @@
 modulesTab = document.getElementById('modules_tab');
 
+// Función para cargar y ejecutar startModule de un módulo
+async function loadAndExecuteModule(modulePath) {
+  try {
+    // Cargar el módulo
+    const module = await import(modulePath);
 
-function loadModulesAtDOM(modulesArray) {
-    modulesTab.innerHTML = '<p class="modulesTitle">Modules</p>' 
-    modulesArray.forEach(module => {
-        modulesTab.innerHTML += 
-        `<div class="module_template">
-        <p>${module.folder}</p>
-        </div>`; // Limpiar el contenedor de módulos existentes
-    });
+    // Ejecutar la función startModule si está definida
+    if (typeof module.startModule === 'function') {
+      module.startModule();
+      console.log(`startModule called for ${modulePath}`);
+    } else {
+      console.warn(`startModule is not defined in ${modulePath}`);
+    }
+  } catch (error) {
+    console.error(`Failed to load module ${modulePath}:`, error);
+  }
 }
 
-console.log('xd')
+function loadModulesAtDOM(modulesArray) {
+  modulesTab.innerHTML = '<p class="modulesTitle">Modules</p>';
+  console.log(modulesArray);
+
+  modulesArray.forEach(module => {
+    const { folder, file } = module;
+    const modulePath = `../../../modules/${folder}/${file}`;
+
+    // Agregar el módulo al DOM con un onclick que llama a loadAndExecuteModule
+    modulesTab.innerHTML += 
+      `<div class="module_template" onclick="loadAndExecuteModule('${modulePath}')">
+        <p>${folder}</p>
+      </div>`;
+  });
+}
+
 window.electron.loadModules();
 
 window.electron.onModulesLoaded((modulesList) => {

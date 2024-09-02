@@ -44,27 +44,3 @@ function openModal(view){
 
 
 }
-
-async function loadView(view) {
-    const response = await fetch(view);
-    const viewScript = await response.text();
-    eval(viewScript);
-}
-
-function loadCSS(url) {
-    // Crea un nuevo elemento <link>
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = url;
-
-    // Añade el elemento <link> al <head> del documento
-    document.head.appendChild(link);
-}
-
-function loadScript(src) {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => console.log(`${src} loaded successfully`);
-    script.onerror = () => console.error(`Failed to load ${src}`);
-    document.body.appendChild(script);
-}

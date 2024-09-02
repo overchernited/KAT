@@ -2,7 +2,7 @@
   display: inline-block;
   width: 60px;
   height: 34px;
-  background-color: #292929;
+  background-color: var(--third-color);
   border-radius: 17px;
   position: relative;
 }
@@ -18,7 +18,7 @@
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: rgb(202, 202, 202);
+  background-color: var(--disabled-btn);
   border-radius: 50%;
   transition: 0.4s;
 }
@@ -48,7 +48,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--context-color);
+  background-color: var(--third-color);
   color: var(--font-color);
   font-family: "Inter", sans-serif;
   padding: 0.5rem;

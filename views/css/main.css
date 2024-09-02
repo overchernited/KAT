@@ -88,7 +88,7 @@ body {
 
 .dragging{
   animation: tabSwing 0.5s ease-in-out infinite alternate;
-  background-color: var(--context-color) !important;
+  background-color: var(--third-color) !important;
   z-index: 100;
 }
 
@@ -179,7 +179,7 @@ body {
 }
 
 .close-button {
-  background-color: #363636;
+  background-color: var(--disabled-btn);
 }
 
 .close-button:hover {
@@ -187,7 +187,7 @@ body {
 }
 
 .minimize-button {
-  background-color: #363636;
+  background-color: var(--disabled-btn);
 }
 
 .minimize-button:hover {
@@ -195,7 +195,7 @@ body {
 }
 
 .resize-button {
-  background-color: #363636;
+  background-color: var(--disabled-btn);
 }
 
 .resize-button:hover {
@@ -203,7 +203,7 @@ body {
 }
 
 .devtools-button {
-  background-color: #363636;
+  background-color: var(--disabled-btn);
 }
 
 .devtools-button:hover {
@@ -241,10 +241,20 @@ body {
 }
 
 .windowTitle {
+  display: inline-block;
   margin: 10px;
-  color: var(--font-color);
+  color: var(--font-color, #fff);
   font-family: 'Inter', sans-serif;
   font-weight: 600;
+}
+
+.version{
+  display: inline-block;
+  margin: 2px;
+  color: var(--font-color, #fff);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
 }
 
 .chatControls {
@@ -261,20 +271,21 @@ body {
   margin-top: 25px;
   margin-left: 10px;
   border-radius: 10px;
-  border: 1px var(--border-colors) solid;
-  background-color: var(--main-color);
+  border: none;
+  background-color: var(--third-color);
   color: var(--font-color);
   cursor: pointer;
-  transition: color .2s, background-color .2s;
+  transition: color .2s ease-in-out, background-color .2s ease-in;
 }
 
 .sendButton:hover {
-  background-color: var(--border-colors);
+  background-color: var(--main-color);
+  border: 1px var(--border-colors) solid;
 }
 
 .chatInput {
   outline: none;
-  border: 1px var(--border-colors) solid;
+  border: none;
   background-color: var(--main-color);
   width: 100%;
   height: 50px;
@@ -301,4 +312,48 @@ body {
 
 .empty {
   opacity: 1;
+}
+
+.loadingPage{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1000;
+  background-color: #131313;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loadingPage > p{
+  font-size: 30vh;
+  font-weight: 800;
+  text-align: center;
+  font-family: 'Inter', Arial;
+  color: #fff
+}
+
+.spinner {
+  height: 15vh;
+  width: 15vh;
+  border-radius: 50%;
+  background: conic-gradient(#fff 0% 25%, transparent 25% 100%);
+  animation: load .8s linear infinite;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: ease-in; /* Primera velocidad */
+  }
+  50% {
+    transform: rotate(180deg);
+    animation-timing-function: linear; /* Segunda velocidad */
+  }
+  100% {
+    transform: rotate(360deg);
+    animation-timing-function: ease-in; /* Vuelve a la primera velocidad */
+  }
 }

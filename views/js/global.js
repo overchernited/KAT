@@ -1,15 +1,19 @@
 const tooltipDiv = document.getElementById("tooltipDiv");
 let tooltiped = false;
 
+const v = "v1.0";
+
+document.getElementById("version").innerText = v;
 const defaultConfigs = {
   createTabSound: true,
   closeTabSound: true,
   dragTabSound: true,
   dropTabSound: true,
+  onStartSound: true,
   sendMessageSound: true,
   AlwaysScroll: false,
   scrollZoneSize: 300,
-  selectedTheme: "default.css",
+  selectedTheme: "Supernova (Dark Theme).css",
 };
 
 const defaultSounds = {
@@ -18,6 +22,7 @@ const defaultSounds = {
   dragTabSelectedSound: "Sound3.mp3",
   dropTabSelectedSound: "Sound4.mp3",
   sendMessageSelectedSound: "Sound5.mp3",
+  onStartSelectedSound: "Sound9.mp3",
 };
 
 let configs = {
@@ -31,6 +36,7 @@ let configs = {
   ),
   scrollZoneSize: getItem("scrollZoneSize", defaultConfigs.scrollZoneSize),
   AlwaysScroll: getItem("AlwaysScroll", defaultConfigs.AlwaysScroll),
+  onStartSound: getItem("onStartSound", defaultConfigs.onStartSound),
 };
 
 const selectedFiles = {
@@ -55,13 +61,19 @@ const selectedFiles = {
     defaultSounds.sendMessageSelectedSound
   ),
   selectedTheme: getItem("selectedTheme", defaultConfigs.selectedTheme),
+  onStartSelectedSound: getItem(
+    "onStartSelectedSound",
+    defaultSounds.onStartSelectedSound
+  ),
 };
 
 const descriptions = {
   terminalchat: "Contenido largo y detallado del Tooltip 1.",
   select: "Select a file",
+  themeconfig:
+    "Select a css file theme to personalize the terminal colors, shapes, etc",
   sounds:
-    "La configuracion sobre los sonidos que se ejecutan al realizar ciertas acciones dentro de la terminal",
+    "Configurations about sounds that plays realizing certain actions in the terminal.",
   autoscrollzone:
     "The Auto-Scroll Zone Size setting allows adjusting the automatic scrolling of content when the user approaches a certain distance from the bottom of the chat.",
   alwaysscroll:
@@ -92,7 +104,7 @@ function recoverConfigs() {
 }
 
 function recoverTheme() {
-  theme = document.getElementById('theme')
+  theme = document.getElementById("theme");
   theme.href = `../themes/${selectedFiles["selectedTheme"]}`;
 }
 
@@ -148,43 +160,133 @@ function hideTooltip(event) {
 }
 
 function loadTheme(event, filevariable, file, path, folder) {
-  theme = document.getElementById('theme')
+  theme = document.getElementById("theme");
   console.log(folder);
   selectedFiles[filevariable] = file;
-  console.log(filevariable, file)
+  console.log(filevariable, file);
   localStorage.setItem(filevariable, JSON.stringify(file));
-  theme.href = `../themes/${file}`
+  theme.href = `../themes/${file}`;
 }
 
+function OnStart() {
+  recoverTheme();
+  if (configs["onStartSound"] == true) {
+    soundRep(selectedFiles["onStartSelectedSound"]);
+  }
+}
 
-window.addEventListener('load', function() {
-  // Llamar al método loadModules de electron cuando la página se ha cargado
-  window.electron.loadModules();
+async function loadView(view) {
+  const response = await fetch(view);
+  const viewScript = await response.text();
+  eval(viewScript);
+}
+
+function loadCSS(href) {
+  // Crear una URL base a partir del documento actual
+  const baseUrl = new URL(document.baseURI);
+
+  // Convertir el href relativo a una URL absoluta
+  const absoluteHref = new URL(href, baseUrl).href;
+
+  // Verificar si el CSS ya está cargado
+  const links = document.querySelectorAll('link[rel="stylesheet"]');
+  for (const linkElement of links) {
+    if (linkElement.href === absoluteHref) {
+      console.log(`${href} is already loaded`);
+      return; // Salir si el CSS ya está cargado
+    }
+  }
+
+  // Crear y agregar el nuevo CSS
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = absoluteHref;
+
+  document.head.appendChild(link);
+}
+
+function loadScript(type, src) {
+  // Crear una URL base a partir del documento actual
+  const baseUrl = new URL(document.baseURI);
+
+  // Convertir el src relativo a una URL absoluta
+  const absoluteSrc = new URL(src, baseUrl).href;
+
+  // Verificar si el script ya está cargado
+  const scripts = document.querySelectorAll('script');
+  for (const scriptElement of scripts) {
+    if (scriptElement.src === absoluteSrc) {
+      console.log(`${src} is already loaded, removing and reloading`);
+      
+      // Eliminar el script existente
+      scriptElement.parentNode.removeChild(scriptElement);
+      
+      // Crear y agregar el nuevo script
+      const script = document.createElement('script');
+      script.type = type;
+      script.src = absoluteSrc;
+      script.onload = () => console.log(`${src} loaded successfully`);
+      script.onerror = () => console.error(`Failed to load ${src}`);
+
+      document.head.appendChild(script);
+      return;
+    }
+  }
+
+  // Crear y agregar el nuevo script si no estaba previamente cargado
+  const script = document.createElement('script');
+  script.type = type;
+  script.src = absoluteSrc;
+  script.onload = () => console.log(`${src} loaded successfully`);
+  script.onerror = () => console.error(`Failed to load ${src}`);
+
+  document.head.appendChild(script);
+}
+
+window.addEventListener("load", function () {
+  OnStart();
+  setTimeout(() => {
+    window.electron.loadModules();
+  }, 500);
 });
 
+window.electron.onModulesLoaded(async (modulesList) => {
+  // Array para almacenar las promesas de carga de módulos
+  const modulePromises = modulesList.map(async (module) => {
+    const { folder, file } = module;
 
+    // Construir la ruta del módulo
+    const modulePath = `../../modules/${folder}/${file}`;
 
-window.electron.onModulesLoaded((modulesList) => {
-  // Imprimir los módulos válidos para verificar
-  console.log('Módulos válidos:', modulesList);
-
-  // Verificar si el modal está cerrado antes de ejecutar los scripts
-  if (!modalOpen) {
-    // Procesar cada módulo
-    modulesList.forEach((module) => {
-      const { scriptContent, folder, file } = module;
-      
-      // Imprimir el nombre del módulo y el contenido del script
-      console.log(`Ejecutando script del módulo: ${folder}/${file}`);
-      
+    if (!modalOpen){
       try {
-        eval(scriptContent);
-        console.log(`El módulo ${folder}/${file} se ejecutó con éxito.`);
+        // Importar el módulo dinámicamente
+        const module = await import(modulePath);
+  
+        // Verificar si initModule está definida en el módulo importado y ejecutarla
+        if (typeof module.initModule === 'function') {
+          module.initModule(); // Ejecuta la función si está definida
+          console.log(`initModule executed for ${modulePath}`);
+        } else {
+          console.warn(`initModule is not defined in ${modulePath}`);
+        }
       } catch (error) {
-        console.error(`Error al ejecutar el módulo ${folder}/${file}:`, error);
+        console.error(`Error loading module ${modulePath}:`, error);
       }
-    });
+    }
+  });
+
+  // Esperar a que todos los módulos se carguen y se ejecute initModule
+  await Promise.all(modulePromises);
+
+  // Ejecutar onStart después de procesar todos los módulos
+  let loadingPage = document.getElementById("loadingPage");
+  if (loadingPage) {
+    loadingPage.style.opacity = "0";
+    loadingPage.style.visibility = "hidden";
+  } else {
+    console.warn("Loading page element not found.");
   }
 });
 
-recoverTheme()
+window.electron.startShell("main", "1", "1");

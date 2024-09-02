@@ -7,10 +7,10 @@
     display: flex;
     min-height: 5%;
     align-items: center;
-    color: var(--font-color);
+    color: var(--terminal-font-color);
     overflow-wrap: break-word;
     word-break: break-all;
-    background-color: var(--background);
+    background-color: var(--message-user-color);
     padding: 1rem;
     border-radius: 10px;
     user-select: text;
@@ -31,15 +31,15 @@
 }
 
 .info {
-    background-color: var(--info-color);
+    background-color: var(--message-info-color);
 }
 
 .error {
-    background-color: var(--error-color);
+    background-color: var(--message-error-color);
 }
 
 .warning {
-    background-color: var(--warning-color);
+    background-color: var(--message-warning-color);
 }
 
 

@@ -5,7 +5,7 @@ let contextOpacity;
 
 const defaultContext =
     `
-<div class="contextOption" onclick="reloadwindow()">
+<div class="contextOption" onclick="reloadWindow()">
     <p class="optionLabel">Reload app</p>
     <p class="shortcut">Ctrl + R</p>
 </div>
@@ -91,10 +91,11 @@ document.addEventListener('click', () => {
     }
 });
 
-function reloadwindow() {
+async function reloadWindow() {
+    window.electron.stopAllShells()
     window.location.reload();
 }
 
 function openDevTools() {
-    window.electron.send('devtools')
+    window.electron.openDevTools()
 }

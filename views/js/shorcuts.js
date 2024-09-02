@@ -31,18 +31,24 @@ document.addEventListener('keydown', function (event) {
             moveTab()
         } else if (event.key === 'i'){
             window.electron.openDevTools()
+        } else if (event.key === 'q'){
+            console.log('xdd')
+            closeTab(currentTerminal, currentTab)
+            event.preventDefault()
         }
     }
     if (!processingAction && altPressed) {
         if (event.key == 'w') {
             closeAllTabs(currentTerminal)
+        } else if (event.key === 'n'){
+            window.electron.createNewWindow()
         }
     }
 });
 
-window.addEventListener('closeTab', () => {
-    if (currentTab !== 1) { processAction(() => closeTab(currentTerminal, currentTab)) }
-});
+// window.addEventListener('ctrlw', () => {
+//     if (currentTab !== 1) { processAction(() => closeTab(currentTerminal, currentTab)) }
+// });
 
 document.addEventListener('keyup', function (event) {
     if (event.key === 'Control') {

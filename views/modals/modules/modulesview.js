@@ -10,5 +10,5 @@ const modulesTemplate = `
 
 
 loadCSS('../views/modals/modules/modules.css')
-loadScript('../views/modals/modules/modulesscript.js')
+loadScript('text/javascript', '../views/modals/modules/modulesscript.js')
 PushModal.innerHTML += modulesTemplate

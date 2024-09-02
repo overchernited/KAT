@@ -5,7 +5,7 @@ const configTemplate = `<div class="configMainDiv">
   <div class="subconfig">
     <div class="configSubTitle">
       Theme
-      <div class="descriptions" data-key="autoscrollzone" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"> 
+      <div class="descriptions" data-key="themeconfig" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"> 
         <i class="fa-solid fa-circle-info"></i>
       </div>
     </div>
@@ -39,6 +39,15 @@ const configTemplate = `<div class="configMainDiv">
     </div>
   </div>
   <div class="sounds">
+    <div class="groupbox">
+      <button class="openManagerBtn" onclick="setupFileManager(event)" data-variable="onStartSelectedSound" data-type="sounds/.mp3/SelectFile" data-key="select" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
+      <p class="boxtitle">Start Sound</p>
+      <label class="toggle-box">
+        <input class="checkbox" type="checkbox" data-variable="onStartSound" onchange="toggleSlider(this, variableChangeHandler)"
+        checked>
+        <div class="slider"></div>
+      </label>
+    </div>
     <div class="groupbox">
       <button class="openManagerBtn" onclick="setupFileManager(event)" data-variable="createTabSelectedSound" data-type="sounds/.mp3/SelectFile" data-key="select" onmousemove="showTooltip(this)" onmouseleave="hideTooltip(event)"><i class="fa-solid fa-folder"></i></button>
       <p class="boxtitle">Create Tab</p>
@@ -89,5 +98,5 @@ const configTemplate = `<div class="configMainDiv">
 </div>`
 
 loadCSS('../views/modals/configuration/config.css')
-loadScript('../views/modals/configuration/configScript.js')
+loadScript('text/javascript', '../views/modals/configuration/configScript.js')
 PushModal.innerHTML += configTemplate

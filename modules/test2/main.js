@@ -1,7 +1,7 @@
 export function initModule(){
-    console.info("Soy un gato")
+    console.info("Soy un perro")
 }
 
 export function startModule(){
-    console.info('si estoy')
+    
 }

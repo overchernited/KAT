@@ -2,25 +2,29 @@
     --accentuation-color:#e329fc;
   
   
-    --background: #0f0e0e;
+    --background: #120424;
     --main-color: #1D0739;
+    --third-color: #2c0c57;
     --card-border: #242424;
     --alpha-color: #0000009d;
     --selection-background: #201f1f;
     --selection-font: #000;
     --border-colors: #777;
     --font-color: #c8acfc;
+    --terminal-font-color: #fff;
     --track-color: #2b2b2b;
-    --info-color: #910aac3d;
-    --error-color: #2e1212;
-    --warning-color: #070605;
-    --context-color: #1b1b1b;
+    --message-user-color: #141414bd;
+    --message-info-color: #910aac3d;
+    --message-error-color: #2e12129d;
+    --message-warning-color: #cc6d0d8d;
   
-    --minimize-btn-color: #4b3b1b;
-    --close-btn-color: #ff5f56;
-    --resize-btn-color: #05b7e4;
-    --dev-btn-color: #fff;
+    --disabled-btn: #472377;
+    --minimize-btn-color: #855392;
+    --close-btn-color: #855392;
+    --resize-btn-color: #855392;
+    --dev-btn-color: #855392;
   }
+  /* #c8acfc */
 
 .chat{
     background-image: url(1263418764599365653.webp);
@@ -30,5 +34,9 @@
 }
 
 .toggle-box{
-    border-radius: 0px;
+    border-radius: 5px;
+}
+
+.toggle-box .slider{
+    border-radius: 5px;
 }

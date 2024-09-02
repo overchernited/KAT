@@ -10,7 +10,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 30%;
-    background-color: var(--context-color);
+    background-color: var(--third-color);
+    color: var(--font-color);
     opacity: 0;
     border-radius: 10px;
     transition: opacity .2s;
@@ -35,5 +36,5 @@
 }
 
 .shortcut{
-    color: var(--border-colors);
+    color: var(--font-color);
 }

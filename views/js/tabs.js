@@ -13,6 +13,8 @@ let currentTab = 1;
 
 const firstTab = {
     id: tabidx,
+    associatedterminal: currentTerminal,
+    shellid: `main`,
     content: []
 };
 
@@ -34,10 +36,14 @@ function createTab(idx) {
 
     const newTab = {
         id: tabidx,
+        associatedterminal: idx,
+        shellid: `${Math.random().toString(36).substr(2, 9)}-${Date.now()}`,
         content: []
     };
+    window.electron.startShell(newTab.shellid, newTab.id, newTab.associatedterminal)
 
     terminalsdict[idx].tabsContent[tabidx] = newTab;
+    console.log("Nueva terminal embedida en", newTab.shellid)
 
     const tabtemplate = `
             <div class="tab" draggable="true" id="tab${tabidx}" terminal-tab="${idx}" oncontextmenu="tabContext(event, ${idx}, ${tabidx})" onclick="changeCurrentTabTo(${idx},${tabidx})">
@@ -183,6 +189,7 @@ function changeCurrentTabTo(idxtt, idxt) {
 }
 
 function closeTab(idxtt, idxt, event) {
+    window.electron.stopShell(terminalsdict[idxtt].tabsContent[idxt].shellid)
     if (configs["closeTabSound"] === true){
         soundRep(selectedFiles["closeTabSelectedSound"])
     }
@@ -232,8 +239,8 @@ function addElementsPushed(idxtt, idxt) {
     });
 }
 
-function pushTabElements(topush) {
-    terminalsdict[currentTerminal].tabsContent[currentTab].content.push(topush);
+function pushTabElements(idxtt, idxt, topush) {
+    terminalsdict[idxtt].tabsContent[idxt].content.push(topush);
 }
 
 function closeAllTabs(idxtt) {
@@ -242,21 +249,33 @@ function closeAllTabs(idxtt) {
 
     for (let i = 1; i < tabIds.length; i++) {
         const tabId = tabIds[i];
-        closeTab(currentTerminal, tabId);
+        closeTab(idxtt, tabId);
     }
 }
 
 function moveTab() {
-    const terminalIds = Object.keys(terminalsdict[currentTerminal]).map(Number).sort((a, b) => a - b);
-    const currentTabIdx = terminalIds.indexOf(currentTerminal);
+    // Encuentra el grupo de terminales para el terminal actual
+    const terminalGroup = terminalsdict[currentTerminal];
+    
+    if (terminalGroup) {
+        // Obtén los IDs de las pestañas del grupo
+        const tabsContent = terminalGroup.tabsContent;
 
-    if (currentTabIdx !== -1) {
-        let nextTabIdx = currentTabIdx + 1;
-        if (nextTabIdx >= tabIds.length) {
-            nextTabIdx = 0; // Regresa al principio si llega al final
+        const terminalIds = Object.keys(tabsContent).map(Number).sort((a, b) => a - b);
+
+        const currentTabIdx = terminalIds.indexOf(terminalGroup.currentTabInTerminal);
+
+        if (currentTabIdx !== -1) {
+            let nextTabIdx = (currentTabIdx + 1) % terminalIds.length;
+
+            const nextTab = terminalIds[nextTabIdx];
+
+            if (nextTab !== undefined) {
+                changeCurrentTabTo(currentTerminal, nextTab);
+                
+                terminalGroup.currentTabInTerminal = nextTab;
+            }
         }
-        const nextTab = tabIds[nextTabIdx];
-        changeCurrentTabTo(currentTerminal, nextTab);
     }
 }
 

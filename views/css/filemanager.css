@@ -37,7 +37,7 @@
     transform: translate(-50%, -50%);
     height: 20%;
     width: 20%;
-    background-color: var(--context-color);
+    background-color: var(--third-color);
     border-radius: 8px;
     z-index: 1000;
     overflow-y: hidden;
@@ -68,23 +68,32 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 
 .file{
     text-align: center;
     font-size: 10px;
+    width: 20%;
+    padding: 5px;
+}
+
+.file > p{
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden; /* Esconde el texto que desborda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos al final */
+    width: 100%;
 }
 
 .filebox{
     font-size: 15px;
     border-radius: 5px;
     padding: .6rem;
-    margin: 3px;
     transition: color .1s, background-color .1s;
     opacity: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .filebox:hover{

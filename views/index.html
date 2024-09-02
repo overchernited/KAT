@@ -16,6 +16,13 @@
 
 <body oncontextmenu="bodyContext(event)">
 
+  
+
+  <div class="loadingPage" id="loadingPage">
+    <p> KAT </p>
+    <div class="spinner"></div>
+  </div>
+
   <div class="contextMenu" id="contextMenu">
 
   </div>
@@ -54,6 +61,7 @@
   <div class="frame">
     <div id="draggable-area">
       <p class="windowTitle">KAT</p>
+      <p class="version" id="version"> </p>
     </div>
     <div class="control_buttons">
       <div class="control-button devtools-button" id="configButton"><i class="fa-solid fa-gear"></i></div>
@@ -96,6 +104,7 @@
       </div>
     </div>
 </body>
+<script src="js/commands.js"></script>
 <script src="js/global.js"></script>
 <script src="js/modals.js"></script>
 <script src="js/filemanager.js"></script>
