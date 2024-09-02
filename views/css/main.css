@@ -208,7 +208,6 @@ body {
 
 .devtools-button:hover {
   background-color: var(--dev-btn-color);
-  color: #000;
 }
 
 /* Contenedor principal y módulos */

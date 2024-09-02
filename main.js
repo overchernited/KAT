@@ -328,9 +328,8 @@ ipcMain.on("stop-shell", (event, { shellid }) => {
   if (shell) {
     shell.process.kill(); // Cierra la entrada estándar de la shell
     delete shells[shellid]; // Elimina la shell de la lista
-    console.log(`Shell ${shellid} cerrada.`);
   } else {
-    console.log(`Shell ${shellid} no encontrada.`);
+    console.log(`Shell ${shellid} not founded.`);
   }
 
   // Cierra cualquier shell con el prefijo 'py' seguido del shellid
@@ -339,9 +338,9 @@ ipcMain.on("stop-shell", (event, { shellid }) => {
   if (pyShell) {
     pyShell.process.kill(); // Cierra la entrada estándar de la shell
     delete shells[pyShellId]; // Elimina la shell de la lista
-    console.log(`Shell ${pyShellId} cerrada.`);
+    console.log(`Shell ${pyShellId} stopped`);
   } else {
-    console.log(`Shell ${pyShellId} no encontrada.`);
+    console.log(`Shell ${pyShellId} not founded.`);
   }
 });
 
