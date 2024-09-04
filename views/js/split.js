@@ -36,10 +36,13 @@ function createTerminal(idxtt, idx) {
   terminalsdict[terminalCount].tabsContent[idx] = {
     id: tabToMove.id,
     terminal: terminalCount,
+    subprocesses: [...tabToMove.subprocesses],
+    processes: tabToMove.processes,
     shellid: tabToMove.shellid,
     content: [...tabToMove.content], // Copia profunda del array de contenido
   };
-  window.electron.editShell(tabToMove.shellid, terminalCount, tabToMove.id);
+
+  editShellTab(terminalCount, idx, terminalCount, tabToMove.id);
 
   delete previousTerminal.tabsContent[idx];
   previousTerminal.currentTabInTerminal = foundClosestTab(idxtt, idx);
@@ -61,7 +64,7 @@ function createTerminal(idxtt, idx) {
           </button>
         </div>
       </div>
-      <button class="createtab" id="createtab" onclick="createTab(${terminalCount})">
+      <button class="createtab" id="createtab" onclick="createTab(${terminalCount}, 'Tab')">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>

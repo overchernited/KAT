@@ -1,0 +1,44 @@
+#hackpy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  font-family: 'Inter';
+}
+
+#hackpy > p{
+    color: var(--font-color);
+    font-size: 5vh;
+}
+
+#hackpy > input{
+    border-radius: 20px;
+    background-color: var(--third-color);
+    color: var(--font-color);
+    padding: .4rem;
+    border: 1px var(--border-colors) solid;
+    margin: 10px;
+    outline: none;
+    width: 80%;
+    height: 10%;
+    font-size: 3vh;
+}
+
+#hackpy > button{
+    background-color: var(--third-color);
+    border: 1px var(--border-colors) solid;
+    border-radius: 10px;
+    color: var(--font-color);
+    width: 10%;
+    height: 10%;
+    transition: .2s all;
+    font-weight: 600;
+}
+
+#hackpy > button:hover{
+    cursor: pointer;
+    color: var(--main-color);
+    background-color: var(--accentuation-color);
+    transform: scale(1.1);
+}

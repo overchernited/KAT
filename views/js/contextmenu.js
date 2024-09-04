@@ -94,6 +94,7 @@ document.addEventListener('click', () => {
 async function reloadWindow() {
     window.electron.stopAllShells()
     window.location.reload();
+    stopAllModules()
 }
 
 function openDevTools() {

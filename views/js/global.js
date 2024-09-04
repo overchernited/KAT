@@ -2,6 +2,7 @@ const tooltipDiv = document.getElementById("tooltipDiv");
 let tooltiped = false;
 
 const v = "v1.0";
+const modules = {}
 
 document.getElementById("version").innerText = v;
 const defaultConfigs = {
@@ -175,10 +176,37 @@ function OnStart() {
   }
 }
 
+function stopAllModules() {
+  Object.keys(modules).forEach(modulePath => {
+    const moduleState = modules[modulePath];
+    
+    if (moduleState.status === 'running') {
+
+      stopModuleInTerminal(moduleState.terminalidx, modulePath);
+      
+      closeTab(moduleState.tabidx);
+
+      moduleState.status = 'stopped';
+
+      updateModuleInDOM(modulePath, 'Run');
+    }
+  });
+
+  saveModulesState();
+}
+
 async function loadView(view) {
-  const response = await fetch(view);
-  const viewScript = await response.text();
-  eval(viewScript);
+  try {
+    const response = await fetch(view);
+    if (!response.ok) {
+      throw new Error(`Failed to load view: ${response.statusText}`);
+    }
+    const viewScript = await response.text();
+    eval(viewScript);
+  } catch (error) {
+    console.error('Error loading view:', error);
+    throw error; // Rechaza la promesa para manejar el error en `openModal`
+  }
 }
 
 function loadCSS(href) {
@@ -228,7 +256,7 @@ function loadScript(type, src) {
       script.onload = () => console.log(`${src} loaded successfully`);
       script.onerror = () => console.error(`Failed to load ${src}`);
 
-      document.head.appendChild(script);
+      document.body.appendChild(script);
       return;
     }
   }
@@ -288,5 +316,4 @@ window.electron.onModulesLoaded(async (modulesList) => {
     console.warn("Loading page element not found.");
   }
 });
-
 window.electron.startShell("main", "1", "1");

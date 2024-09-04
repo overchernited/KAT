@@ -8,13 +8,23 @@ const { rejects } = require("assert");
 
 // Cargar solo módulos válidos
 contextBridge.exposeInMainWorld("electron", {
-  startShell: (shellid, tabidx, terminalidx) => ipcRenderer.send("start-shell", { shellid, tabidx, terminalidx }),
-  editShell: (shellid, terminalidx, tabidx) => ipcRenderer.send("edit-shell", {shellid, terminalidx, tabidx}),
-  runCmd: (command, shellid) => ipcRenderer.send("run-cmd", { command, shellid }),
+  startShell: (shellid, tabidx, terminalidx) =>
+    ipcRenderer.send("start-shell", { shellid, tabidx, terminalidx }),
+  editShell: (shellid, terminalidx, tabidx) =>
+    ipcRenderer.send("edit-shell", { shellid, terminalidx, tabidx }),
+  runCmd: (command, shellid) =>
+    ipcRenderer.send("run-cmd", { command, shellid }),
   stopShell: (shellid) => ipcRenderer.send("stop-shell", { shellid }),
   stopAllShells: () => ipcRenderer.send("close-all"),
-  createNewWindow: () => ipcRenderer.send('create-new-window'),
-  runPythonScript: (scriptPath, shellid, tabidx, terminalidx) => ipcRenderer.send('run-python', {scriptPath, shellid, tabidx, terminalidx}),
+  createNewWindow: () => ipcRenderer.send("create-new-window"),
+  spawn: (command, scriptPath, shellid, tabidx, terminalidx) =>
+    ipcRenderer.send("spawn", {
+      command,
+      scriptPath,
+      shellid,
+      tabidx,
+      terminalidx,
+    }),
 
   onCmdOutput: (callback) =>
     ipcRenderer.on("shell-output", (event, message) => callback(message)),

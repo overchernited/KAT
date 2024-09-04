@@ -60,7 +60,7 @@ function createWindow() {
   });
 
   ipcMain.on("close-window", () => {
-    closeAllShells()
+    closeAllShells();
     win.close();
   });
 
@@ -175,27 +175,16 @@ ipcMain.on("edit-shell", (event, { shellid, terminalidx, tabidx }) => {
     shells[shellid].terminalidx = terminalidx;
     shells[shellid].tabidx = tabidx;
 
-    console.log(`Shell ${shellid} actualizado con terminalidx: ${terminalidx} y tabidx: ${tabidx}`);
+    console.log(
+      `Shell ${shellid} actualizado con terminalidx: ${terminalidx} y tabidx: ${tabidx}`
+    );
   } else {
     console.log(`Shell ${shellid} no encontrado.`);
-  }
-
-  // Construir el key del shell con el prefijo 'py-'
-  const pyShellid = 'py-' + shellid;
-  
-  // Verificar y actualizar shells con el prefijo 'py-' seguido del shellid
-  if (shells[pyShellid]) {
-    shells[pyShellid].terminalidx = terminalidx;
-    shells[pyShellid].tabidx = tabidx;
-
-    console.log(`Shell ${pyShellid} actualizado con terminalidx: ${terminalidx} y tabidx: ${tabidx}`);
-  } else {
-    console.log(`Shell ${pyShellid} no encontrado.`);
   }
 });
 
 ipcMain.on("start-shell", (event, { shellid, tabidx, terminalidx }) => {
-  console.log('Started shell:' + shellid);
+  console.log("Started shell:" + shellid);
 
   if (shells[shellid]) {
     event.reply("shell-output", {
@@ -216,19 +205,19 @@ ipcMain.on("start-shell", (event, { shellid, tabidx, terminalidx }) => {
     terminalidx,
     tabidx,
     process: shell,
-    lastCommand: ''
+    lastCommand: "",
   };
 
   shells[shellid] = shellObject;
 
   shell.stdout.on("data", (data) => {
     let output = data.toString();
-    const { lastCommand } = shells[shellid];
+    const { lastCommand } = shells[shellid].lastCommand;
 
     // Elimina el comando de la salida si está presente al principio
     if (output.startsWith(lastCommand)) {
       output = output.substring(lastCommand.length).trim();
-      shells[shellid].lastCommand = ''; // Reset lastCommand after it has been removed
+      shells[shellid].lastCommand = ""; // Reset lastCommand after it has been removed
     }
 
     // Si la salida no está vacía, envíala
@@ -288,9 +277,8 @@ ipcMain.on("run-cmd", (event, { command, shellid }) => {
   shellObject.lastCommand = command;
 
   // Ejecutar el comando en el proceso asociado
-  shellObject.process.stdin.write(command + '\n');
+  shellObject.process.stdin.write(command + "\n");
 });
-
 
 function runCmd({ command, shellid }) {
   const shell = shells[shellid];
@@ -302,24 +290,23 @@ function runCmd({ command, shellid }) {
   }
 }
 
-
 function closeAllShells() {
   for (const idx in shells) {
     if (shells.hasOwnProperty(idx)) {
       const shellObject = shells[idx];
       const process = shellObject.process; // Accede a la shell real
 
-      if (process && typeof process.kill === 'function') {
-        process.kill();  // Envía una señal para terminar el proceso
+      if (process && typeof process.kill === "function") {
+        process.kill(); // Envía una señal para terminar el proceso
         console.log(`Shell ${idx} stopped`);
-        delete shells[idx];  // Elimina la referencia del proceso
+        delete shells[idx]; // Elimina la referencia del proceso
       }
     }
   }
 }
 
-ipcMain.on('close-all', (event) => {
-  closeAllShells()
+ipcMain.on("close-all", (event) => {
+  closeAllShells();
 });
 
 ipcMain.on("stop-shell", (event, { shellid }) => {
@@ -331,80 +318,72 @@ ipcMain.on("stop-shell", (event, { shellid }) => {
   } else {
     console.log(`Shell ${shellid} not founded.`);
   }
-
-  // Cierra cualquier shell con el prefijo 'py' seguido del shellid
-  const pyShellId = `py-${shellid}`;
-  const pyShell = shells[pyShellId];
-  if (pyShell) {
-    pyShell.process.kill(); // Cierra la entrada estándar de la shell
-    delete shells[pyShellId]; // Elimina la shell de la lista
-    console.log(`Shell ${pyShellId} stopped`);
-  } else {
-    console.log(`Shell ${pyShellId} not founded.`);
-  }
 });
 
-ipcMain.on("run-python", (event, { scriptPath, shellid, tabidx, terminalidx }) => {
-  console.log(`Started shell: ${shellid}`);
+ipcMain.on(
+  "spawn",
+  (event, { command, scriptPath, shellid, tabidx, terminalidx }) => {
+    console.log(`Started shell: ${shellid}`);
 
-  if (shells[shellid]) {
-    console.log("Already in execution")
-    return;
-  }
+    if (shells[shellid]) {
+      console.log("Already in execution");
+      return;
+    }
 
-  const shell = spawn('python', ['-u', scriptPath]);
+    const shell = spawn(command, ["-u", scriptPath]);
 
-  // Guardar la shell y sus propiedades en el objeto shells
-  const shellObject = {
-    tabidx,
-    terminalidx,
-    process: shell,
-  };
+    // Guardar la shell y sus propiedades en el objeto shells
+    const shellObject = {
+      tabidx,
+      terminalidx,
+      process: shell,
+    };
 
-  shells[shellid] = shellObject;
+    shells[shellid] = shellObject;
 
-  shell.stdout.on("data", (data) => {
-    const { terminalidx, tabidx } = shells[shellid];
-    console.log(terminalidx, tabidx)
-    let output = data.toString();
-    console.log()
+    shell.stdout.on("data", (data) => {
+      const { terminalidx, tabidx } = shells[shellid];
+      console.log(terminalidx, tabidx);
+      let output = data.toString();
+      console.log();
 
-    if (output.trim()) {
+      if (output.trim()) {
+        event.reply("shell-output", {
+          type: "info",
+          tabidx,
+          terminalidx,
+          message: output,
+        });
+      }
+    });
+
+    shell.stderr.on("data", (data) => {
+      const { terminalidx, tabidx } = shells[shellid];
       event.reply("shell-output", {
-        type: "info",
+        type: "error",
         tabidx,
         terminalidx,
-        message: output,
+        message: data.toString(),
       });
-    }
-  });
-
-  shell.stderr.on("data", (data) => {
-    const { terminalidx, tabidx } = shells[shellid];
-    event.reply("shell-output", {
-      type: "error",
-      tabidx,
-      terminalidx,
-      message: data.toString(),
     });
-  });
 
-  shell.on("close", (code) => {
-    delete shells[shellid];
-    console.log(`Shell ${shellid} closed with code ${code}`);
-  });
-
-  shell.on("error", (error) => {
-    const { terminalidx, tabidx } = shells[shellid];
-    event.reply("shell-output", {
-      type: "error",
-      tabidx,
-      terminalidx,
-      message: `Error initializing shell process: ${error.message}`,
+    shell.on("close", (code) => {
+      delete shells[shellid];
+      console.log(`Shell ${shellid} closed with code ${code}`);
     });
-    delete shells[shellid];
-  });
-});
+
+    shell.on("error", (error) => {
+      const { terminalidx, tabidx } = shells[shellid];
+      event.reply("shell-output", {
+        type: "error",
+        tabidx,
+        terminalidx,
+        message: `Error initializing shell process: ${error.message}`,
+      });
+      delete shells[shellid];
+    });
+  }
+);
 
 app.whenReady().then(() => {
   createWindow();

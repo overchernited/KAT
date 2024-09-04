@@ -26,7 +26,7 @@ document.addEventListener('keydown', function (event) {
 
     if (!processingAction && ctrlPressed) {
         if (event.key === 'n') {
-            processAction(() => createTab(currentTerminal));
+            processAction(() => createTab(currentTerminal, 'Tab'));
         } else if (event.key === 'Tab') {
             moveTab()
         } else if (event.key === 'i'){

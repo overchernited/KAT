@@ -115,7 +115,22 @@ window.electron.onCmdOutput((data) => {
 
   addMessageToBuffer(formattedMessage, type, terminalidx, tabidx);
 });
-// Credits, Info, ETC // No relevant code
+
+function editShellTab(idxtt, idxt, terminalidx, tabidx) {
+  tab = terminalsdict[idxtt].tabsContent[idxt];
+  window.electron.editShell(tab.shellid, terminalidx, tabidx);
+  tab.subprocesses.forEach((subprocess) => {
+    console.log(subprocess.id);
+    window.electron.editShell(subprocess.id, terminalidx, tabidx);
+  });
+}
+function stopShellTab(idxtt, idxt) {
+  tab = terminalsdict[idxtt].tabsContent[idxt];
+  window.electron.stopShell(tab.shellid, terminalCount, tab.id);
+  tab.subprocesses.forEach((subprocess) => {
+    window.electron.stopShell(subprocess.id);
+  });
+}
 
 const versionTemplate = `
 <div>

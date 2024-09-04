@@ -19,28 +19,27 @@ function closeModal(){
     }, 200);
 }
 
-function openModal(view){
-    if (modalOpen == false){
-        modalOpen = true
-        modalBack.style.display = 'flex'
-        modal.style.height = '50'
-        modal.style.width = '50'
+function openModal(view) {
+    return new Promise((resolve, reject) => {
+      if (!modalOpen) {
+        modalOpen = true;
+        modalBack.style.display = 'flex';
+        modal.style.height = '50%';
+        modal.style.width = '50%';
         setTimeout(() => {
-            modalBack.style.opacity = '1'
-            modal.style.height = '60%'
-            modal.style.width = '50%'
+          modalBack.style.opacity = '1';
+          modal.style.height = '60%';
+          modal.style.width = '50%';
+          modal.innerHTML = modalTemplate;
+  
+          // Asegurarse de que `loadView` se complete antes de resolver la promesa
+          loadView(view).then(resolve).catch(reject);
         }, 10);
-    
-    
-        modal.innerHTML = modalTemplate
-        loadView(view)
-    } else{
-        closeModal()
+      } else {
+        closeModal();
         setTimeout(() => {
-            openModal(view)
-            
+          openModal(view).then(resolve).catch(reject);
         }, 200);
-    }
-
-
-}
+      }
+    });
+  }

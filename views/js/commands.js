@@ -1,21 +1,37 @@
-const terminalCommands = [
+export const terminalCommands = [
   function cls() {
-    actualTerminal = document.getElementById(`terminal-${currentTerminal}`)
-    actualTerminal.innerHTML = ''
+    let actualTerminal = document.getElementById(`terminal-${currentTerminal}`);
+    actualTerminal.innerHTML = "";
     terminalsdict[currentTerminal].tabsContent[currentTab].content = [];
-    console.info('Cleared')
+    console.info("Cleared");
   },
-  function python(scriptPath){
-    console.log(terminalsdict[currentTerminal].tabsContent[currentTab].shellid)
-    shellid = terminalsdict[currentTerminal].tabsContent[currentTab].shellid
-    window.electron.runPythonScript(scriptPath, `py-${shellid}`, currentTab, currentTerminal)
-  }
-  
+  function spawn(command, scriptPath) {
+    let shelltab = terminalsdict[currentTerminal].tabsContent[currentTab];
+    let tabsubprocess = shelltab.processes;
+    shelltab.processes = tabsubprocess + 1;
+    const shellid = `${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+
+    // Agrega el shellid al array subprocesses
+    shelltab.subprocesses.push({
+      id: `sub-${shellid}`,
+    });
+
+    window.electron.spawn(
+      command,
+      scriptPath,
+      `sub-${shellid}`,
+      currentTab,
+      currentTerminal
+    );
+  },
 ];
 
-function addCommand(name, func) {
+export function addCommand(name, func) {
   if (!terminalCommands.some((cmd) => cmd.name === name)) {
   } else {
     console.log(`The ${name} commands already exists.`);
   }
 }
+
+
+window.terminalCommands = terminalCommands
