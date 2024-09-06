@@ -1,1 +1,0 @@
-curl -o "%USERPROFILE%\Documents\MyGames\archivo.ext" "URL_DEL_ARCHIVO"

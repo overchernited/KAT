@@ -24,6 +24,9 @@ export const terminalCommands = [
       currentTerminal
     );
   },
+  function python(scriptPath){
+    terminalCommands[1]("python", scriptPath)
+  }
 ];
 
 export function addCommand(name, func) {
