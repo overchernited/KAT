@@ -164,7 +164,7 @@ const getShellArgs = () => {
   if (os.platform() === "win32") {
     return ["@ECHO OFF"]; // Para cmd.exe
   } else {
-    return ["bash"]; // Para bash
+    return ["-i"]; // Para bash
   }
 };
 
@@ -233,6 +233,7 @@ ipcMain.on("start-shell", (event, { shellid, tabidx, terminalidx }) => {
   });
 
   shell.stderr.on("data", (data) => {
+    console.log(shells[shellid])
     const { terminalidx, tabidx } = shells[shellid];
     event.reply("shell-output", {
       type: "error",
