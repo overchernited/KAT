@@ -54,20 +54,6 @@ const logToTerminal = (message, type = "message", terminalid, tabid) => {
   }
 };
 
-window.onerror = function (message, source, lineno, colno, error) {
-  addMessageToBuffer(message, "error", currentTerminal, currentTab);
-};
-
-console.error = function (message) {
-  const errorObj = new Error();
-  const stackTrace = errorObj.stack.split("\n")[2];
-  const fileInfo = stackTrace.trim().replace(/^at\s+/g, "");
-  const fullMessage = `${message} (${fileInfo})`;
-
-  addMessageToBuffer(fullMessage, "error", currentTerminal, currentTab);
-  originalConsoleError.apply(console, [fullMessage, ...arguments]);
-};
-
 console.warn = function (message) {
   addMessageToBuffer(message, "info", currentTerminal, currentTab);
   originalConsoleWarn.apply(console, arguments);

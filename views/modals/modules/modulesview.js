@@ -9,6 +9,6 @@ const modulesTemplate = `
 `;
 
 
-loadCSS('../views/modals/modules/modules.css')
-loadScript('text/javascript', '../views/modals/modules/modulesscript.js')
+loadCSS('../views/modals/modules/modules.css', document.head)
+loadScript('text/javascript', '../views/modals/modules/modulesscript.js', document.head)
 PushModal.innerHTML += modulesTemplate

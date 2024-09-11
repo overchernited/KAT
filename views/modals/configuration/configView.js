@@ -97,6 +97,6 @@ const configTemplate = `<div class="configMainDiv">
 </div>
 </div>`
 
-loadCSS('../views/modals/configuration/config.css')
-loadScript('text/javascript', '../views/modals/configuration/configScript.js')
+loadCSS('../views/modals/configuration/config.css', document.head)
+loadScript('text/javascript', '../views/modals/configuration/configScript.js', document.head)
 PushModal.innerHTML += configTemplate

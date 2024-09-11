@@ -2,7 +2,7 @@ const tooltipDiv = document.getElementById("tooltipDiv");
 let tooltiped = false;
 
 const v = "v1.0";
-const modules = {}
+const modules = {};
 
 document.getElementById("version").innerText = v;
 const defaultConfigs = {
@@ -177,18 +177,17 @@ function OnStart() {
 }
 
 function stopAllModules() {
-  Object.keys(modules).forEach(modulePath => {
+  Object.keys(modules).forEach((modulePath) => {
     const moduleState = modules[modulePath];
-    
-    if (moduleState.status === 'running') {
 
+    if (moduleState.status === "running") {
       stopModuleInTerminal(moduleState.terminalidx, modulePath);
-      
+
       closeTab(moduleState.tabidx);
 
-      moduleState.status = 'stopped';
+      moduleState.status = "stopped";
 
-      updateModuleInDOM(modulePath, 'Run');
+      updateModuleInDOM(modulePath, "Run");
     }
   });
 
@@ -204,12 +203,12 @@ async function loadView(view) {
     const viewScript = await response.text();
     eval(viewScript);
   } catch (error) {
-    console.error('Error loading view:', error);
+    console.error("Error loading view:", error);
     throw error; // Rechaza la promesa para manejar el error en `openModal`
   }
 }
 
-function loadCSS(href) {
+function loadCSS(href, div) {
   // Crear una URL base a partir del documento actual
   const baseUrl = new URL(document.baseURI);
 
@@ -226,49 +225,63 @@ function loadCSS(href) {
   }
 
   // Crear y agregar el nuevo CSS
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
   link.href = absoluteHref;
 
-  document.head.appendChild(link);
+  div.appendChild(link);
 }
 
-function loadScript(type, src) {
-  // Crear una URL base a partir del documento actual
-  const baseUrl = new URL(document.baseURI);
+function loadScript(type, src, div) {
+  return new Promise((resolve, reject) => {
+    // Crear una URL base a partir del documento actual
+    const baseUrl = new URL(document.baseURI);
 
-  // Convertir el src relativo a una URL absoluta
-  const absoluteSrc = new URL(src, baseUrl).href;
+    // Convertir el src relativo a una URL absoluta
+    const absoluteSrc = new URL(src, baseUrl).href;
 
-  // Verificar si el script ya está cargado
-  const scripts = document.querySelectorAll('script');
-  for (const scriptElement of scripts) {
-    if (scriptElement.src === absoluteSrc) {
-      console.log(`${src} is already loaded, removing and reloading`);
-      
-      // Eliminar el script existente
-      scriptElement.parentNode.removeChild(scriptElement);
-      
-      // Crear y agregar el nuevo script
-      const script = document.createElement('script');
-      script.type = type;
-      script.src = absoluteSrc;
-      script.onload = () => console.log(`${src} loaded successfully`);
-      script.onerror = () => console.error(`Failed to load ${src}`);
+    // Verificar si el script ya está cargado
+    const scripts = document.querySelectorAll("script");
+    for (const scriptElement of scripts) {
+      if (scriptElement.src === absoluteSrc) {
+        console.log(`${src} is already loaded, removing and reloading`);
 
-      document.body.appendChild(script);
-      return;
+        // Eliminar el script existente
+        scriptElement.parentNode.removeChild(scriptElement);
+
+        // Crear y agregar el nuevo script
+        const script = document.createElement("script");
+        script.type = type;
+        script.src = absoluteSrc;
+        script.onload = () => {
+          console.log(`${src} loaded successfully`);
+          resolve(); // Resolver la promesa cuando se cargue el script
+        };
+        script.onerror = () => {
+          console.error(`Failed to load ${src}`);
+          reject(new Error(`Failed to load ${src}`)); // Rechazar la promesa si falla la carga
+        };
+
+        div.appendChild(script);
+        return;
+      }
     }
-  }
 
-  // Crear y agregar el nuevo script si no estaba previamente cargado
-  const script = document.createElement('script');
-  script.type = type;
-  script.src = absoluteSrc;
-  script.onload = () => console.log(`${src} loaded successfully`);
-  script.onerror = () => console.error(`Failed to load ${src}`);
+    // Si el script no estaba previamente cargado, crearlo
+    const script = document.createElement("script");
+    script.type = type;
+    script.src = absoluteSrc;
+    script.onload = () => {
+      console.log(`${src} loaded successfully`);
+      resolve(); // Resolver la promesa cuando se cargue el script
+    };
+    script.onerror = () => {
+      console.error(`Failed to load ${src}`);
+      reject(new Error(`Failed to load ${src}`)); // Rechazar la promesa si falla la carga
+    };
 
-  document.head.appendChild(script);
+    div.appendChild(script);
+  });
 }
 
 window.addEventListener("load", function () {
@@ -286,13 +299,13 @@ window.electron.onModulesLoaded(async (modulesList) => {
     // Construir la ruta del módulo
     const modulePath = `../../modules/${folder}/${file}`;
 
-    if (!modalOpen){
+    if (!modalOpen) {
       try {
         // Importar el módulo dinámicamente
         const module = await import(modulePath);
-  
+
         // Verificar si initModule está definida en el módulo importado y ejecutarla
-        if (typeof module.initModule === 'function') {
+        if (typeof module.initModule === "function") {
           module.initModule(); // Ejecuta la función si está definida
           console.log(`initModule executed for ${modulePath}`);
         } else {

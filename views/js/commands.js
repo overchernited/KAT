@@ -29,12 +29,8 @@ export const terminalCommands = [
   }
 ];
 
-export function addCommand(name, func) {
-  if (!terminalCommands.some((cmd) => cmd.name === name)) {
-  } else {
-    console.log(`The ${name} commands already exists.`);
-  }
+export function addCommand(func) {
+  terminalCommands.push(func);
+  console.log('Nuevo comando añadido.');
 }
-
-
 window.terminalCommands = terminalCommands
