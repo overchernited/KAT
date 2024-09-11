@@ -1,4 +1,7 @@
-import { terminalCommands } from "../../views/js/commands.js";
+import { addCommand, terminalCommands } from "../../views/js/commands.js";
+
+let localClientsList = []
+
 export function initModule() {
   console.info("Soy un gato");
 }
@@ -6,62 +9,117 @@ export function initModule() {
 export function startModule() {
   terminalCommands[1]("python", "modules/hackpy/root/main.py");
 
+  hackpy()
+}
+
+export function hackpy(){
+  localClientsList = []
+  // Ejecutar un comando en el terminal usando la función terminalCommands
+  addCommand(hackpy)
+
   // Abre el modal y luego configura el eventListener
   openModal("../modules/hackpy/view.js")
     .then(() => {
       const submitBtn = document.getElementById("submitCommand");
-      submitBtn.addEventListener("click", submitForm);
+      if (submitBtn) {
+        submitBtn.addEventListener("click", submitSelectedCommands);
+        loadCSS("../modules/hackpy/main.css", document.getElementById("hackpy"));
+        loadScript(
+          "module",
+          "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js", document.head
+        ).then(() => {
+          startListeningForClients();
+        });
+      } else {
+        console.error("No se encontró el botón submitCommand");
+      }
     })
     .catch((error) => {
-      console.error("Error opening modal:", error);
+      console.error("Error en el proceso:", error);
     });
 }
 
-function submitForm() {
-  const command = document.getElementById("command");
-  const client = document.getElementById("client");
+async function submitSelectedCommands() {
+  const checkboxes = document.querySelectorAll("#clientsContainer input[type='checkbox']:checked");
+  const command = document.getElementById("command").value;
 
-  // Verifica que ambos campos no estén vacíos
-  if (command.value.trim() === "" || client.value.trim() === "") {
-    console.error('Error: Both command and client fields must be filled.');
-    
-    // Resalta los campos vacíos
-    if (command.value.trim() === "") {
-      command.style.border = "1px red solid";
-    } else {
-      command.style.border = "1px var(--border-colors) solid";
-    }
-    
-    if (client.value.trim() === "") {
-      client.style.border = "1px red solid";
-    } else {
-      client.style.border = "1px var(--border-colors) solid";
-    }
-    
-    return; // Detiene la ejecución si alguno de los campos está vacío
+  if (checkboxes.length === 0) {
+    console.error("Error: No checkboxes selected.");
+    return;
   }
 
-  // Verifica que el campo client solo contenga números
-  if (!/^\d+$/.test(client.value)) {
-    console.error('Error: The client field must contain only numbers.');
-    client.style.border = "1px red solid";
-    client.value = "Error: The client field must contain only numbers.";
-    
-    return; // Detiene la ejecución si el valor del campo client no es un número
+  // Crear un nuevo objeto local para cada envío
+  const commandClientMap = {};
+
+  checkboxes.forEach(checkbox => {
+    const clientId = checkbox.id.replace('clientCheckbox_', '');
+    commandClientMap[clientId] = { command: command };
+  });
+  console.log("Prepared data to send:", JSON.stringify(commandClientMap, null, 2));
+
+  // Enviar el objeto completo al servidor
+  try {
+    const response = await fetch("https://flexible-elk-monthly.ngrok-free.app/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(commandClientMap),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Commands sent:", data);
+      // Asegúrate de que la respuesta se maneje como JSON
+      console.log("Received data:", JSON.stringify(data, null, 2)); // Formatea el JSON para verlo claramente
+    } else {
+      console.error("Error sending commands:", response.status, response.statusText);
+    }
+  } catch (error) {
+    console.error("Error sending commands:", error);
   }
+}
 
-  // Resalta el borde del campo client si está correcto
-  client.style.border = "1px var(--border-colors) solid";
-  command.style.border = "1px var(--border-colors) solid";
 
-  fetch("https://flexible-elk-monthly.ngrok-free.app/submit", {
-    method: "POST",
+function updateClientList() {
+  fetch("https://flexible-elk-monthly.ngrok-free.app/current_clients", {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "skip-browser-warning",
     },
-    body: JSON.stringify({ command: command.value, client: client.value }),
   })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+    .then((response) => response.json())
+    .then((data) => {
+      const clientsDiv = document.getElementById("clientsContainer");
+      if (data.clients_list) {
+        console.log(data);
+
+        // Filtrar los IDs de cliente que aún no están en la lista local
+        const newClients = data.clients_list.filter(clientId => !localClientsList.includes(clientId));
+
+        // Actualizar la lista local con los nuevos clientes
+        localClientsList = [...localClientsList, ...newClients];
+
+        // Agregar cada nuevo client_id a un nuevo elemento en el div
+        newClients.forEach((clientId) => {
+          const clientTemplate = `
+          <div id="checkboxContainer" class="pop-in">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="clientCheckbox_${clientId}" />
+              <span class="checkmark"></span>
+              <span class="client-number">${clientId}</span>
+            </label>
+          </div>
+          `;
+          clientsDiv.insertAdjacentHTML("beforeend", clientTemplate);
+        });
+      } else {
+        console.error("Error: No clients list found in response.");
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+}
+
+// Inicia la escucha continua para actualizaciones de clientes
+function startListeningForClients() {
+  setInterval(updateClientList, 5000);
 }

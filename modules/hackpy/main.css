@@ -1,44 +1,140 @@
-#hackpy {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
-  font-family: 'Inter';
+.modal{
+    background-image: url(https://i.pinimg.com/originals/4c/01/bc/4c01bc46119eafd6ad52c72e3f6baa5a.gif);
+    background-repeat: repeat;
+    background-size: 100vh;
 }
 
-#hackpy > p{
+
+#title{
     color: var(--font-color);
     font-size: 5vh;
 }
 
-#hackpy > input{
+#controls > input{
     border-radius: 20px;
     background-color: var(--third-color);
     color: var(--font-color);
     padding: .4rem;
     border: 1px var(--border-colors) solid;
-    margin: 10px;
     outline: none;
-    width: 80%;
-    height: 10%;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     font-size: 3vh;
 }
 
-#hackpy > button{
+#controls{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 10%;
+}
+
+#controls > button{
     background-color: var(--third-color);
     border: 1px var(--border-colors) solid;
     border-radius: 10px;
     color: var(--font-color);
     width: 10%;
-    height: 10%;
+    margin: 10px;
+    height: 100%;
+    box-sizing: border-box;
     transition: .2s all;
     font-weight: 600;
 }
 
-#hackpy > button:hover{
+#controls > button:hover{
     cursor: pointer;
     color: var(--main-color);
     background-color: var(--accentuation-color);
     transform: scale(1.1);
 }
+
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+
+  #clientsContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 75%;
+  }
+
+  #checkboxContainer {
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  .custom-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 10vh;
+    height: 10vh;
+  }
+  
+  .custom-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    border: 2px solid var(--accentuation-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .client-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vh;
+    color: var(--font-color);
+    z-index: 1;
+  }
+  
+  .custom-checkbox input:checked ~ .checkmark {
+    background-color: var(--accentuation-color); /* Color verde para el checkbox activado */
+    border-color:var(--accentuation-color);
+  }
+  
+  .checkmark:hover{
+    cursor: pointer;
+  }
+
+  .custom-checkbox input:checked ~ .client-number {
+    color: #fff; /* Color blanco del número del cliente cuando activado */
+  }
+
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+    100%{
+        transform: scale(1);
+    }
+  }
+  
+  /* Clase para aplicar la animación */
+  .pop-in {
+    animation: popIn 0.4s forwards;
+  }
