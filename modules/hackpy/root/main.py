@@ -22,7 +22,6 @@ data_available = threading.Event()
 subprocess.Popen(
     'ngrok http --domain=flexible-elk-monthly.ngrok-free.app 5000',
     shell=True,
-    creationflags=subprocess.CREATE_NEW_CONSOLE,
 )
 
 @app.route('/')
