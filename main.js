@@ -162,7 +162,7 @@ const getShellCommand = () => {
 // Comando para iniciar una nueva shell
 const getShellArgs = () => {
   if (os.platform() === "win32") {
-    return ["@ECHO OFF"]; // Para cmd.exe
+    return ["-c"]; // Para cmd.exe
   } else {
     return ["-i"]; // Para bash
   }
