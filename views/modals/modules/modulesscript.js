@@ -107,7 +107,7 @@ function handleModuleClick(modulePath, action) {
 
 // Función para cargar los módulos en el DOM
 function loadModulesAtDOM(modulesArray) {
-  modulesTab.innerHTML = '<p class="modulesTitle">Modules</p>';
+  modulesTab.innerHTML = '';
   console.log(modulesArray);
 
   // Cargar módulos desde el array y verificar estado

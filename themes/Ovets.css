@@ -1,0 +1,102 @@
+:root {
+  --accentuation-color:#ffffff;
+
+
+  --background: #0f0f0f;
+  --main-color: #0a0a0a;
+  --third-color: #1b1b1b;
+  --card-border: #242424;
+  --alpha-color: #0f0e0e9d;
+  --selection-background: #fff;
+  --selection-font: #000;
+  --border-colors: #777;
+  --font-color: #fff;
+  --terminal-font-color: #fff;
+  --track-color: #dadada;
+  --message-user-color: #141414a6;
+  --message-info-color: #14375a3d;
+  --message-error-color: #fa4d4da6;
+  --message-warning-color: #fac636a6;
+
+  --disabled-btn: #363636;
+  --minimize-btn-color: #ffbd2e;
+  --close-btn-color: #ff5f56;
+  --resize-btn-color: #05b7e4;
+  --dev-btn-color: #fff;
+}
+
+.chat{
+  background-image: url(https://i.pinimg.com/originals/4c/01/bc/4c01bc46119eafd6ad52c72e3f6baa5a.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 90%;
+}
+
+.terminal-message{
+  margin: 10px 10px 10px 15vw
+}
+
+.closetab {
+    font-size: .8vw;
+}
+
+.tab_nav{
+  position: absolute;
+  width: 10%;
+  flex-direction: column;
+  height: 83%;
+  z-index: 100;
+  transition: opacity .2s;
+  padding: 1rem;
+  background-color: var(--background);
+}
+
+.tab_nav:hover{
+  opacity: 1;
+}
+
+
+.tab{
+  font-size: .8vw;
+  width: auto;
+  height: 5%;
+  width: 80%;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.tab > p{
+  display: inline-block;
+  margin-top: 3px;
+  text-align: left;
+}
+
+.tabs{
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  align-items: center;
+}
+
+.createtab{
+  height: 5% !important;
+  width: 90%;
+  margin: 10px 0 0 0;
+}
+
+
+.toggle-box{
+  border-radius: 5px;
+}
+
+.toggle-box .slider{
+  border-radius: 5px;
+}
+
+.openManagerBtn{
+  border-radius: 100%;
+  width: auto;
+  padding: 1rem;
+}

@@ -26,12 +26,3 @@
   color: var(--main-color);
   cursor: pointer;
 }
-
-.modulesTitle {
-  font-size: 1.7vw;
-  font-weight: 600;
-  font-family: "Inter", sans-serif;
-  color: var(--font-color);
-  margin: 1 auto;
-  margin-top: 55px;
-}

@@ -212,12 +212,20 @@ ipcMain.on("start-shell", (event, { shellid, tabidx, terminalidx }) => {
 
   shell.stdout.on("data", (data) => {
     let output = data.toString();
-    const { lastCommand } = shells[shellid].lastCommand;
+    let lastCommand = ""; // Definimos un valor predeterminado
+
+    if (shells[shellid] && shells[shellid].lastCommand) {
+      lastCommand = shells[shellid].lastCommand;
+    } else {
+      console.error(
+        `El shell con ID ${shellid} no está definido o no tiene un comando anterior.`
+      );
+    }
 
     // Elimina el comando de la salida si está presente al principio
     if (output.startsWith(lastCommand)) {
       output = output.substring(lastCommand.length).trim();
-      shells[shellid].lastCommand = ""; // Reset lastCommand after it has been removed
+      shells[shellid].lastCommand = ""; // Resetea lastCommand después de eliminarlo
     }
 
     // Si la salida no está vacía, envíala
@@ -233,7 +241,7 @@ ipcMain.on("start-shell", (event, { shellid, tabidx, terminalidx }) => {
   });
 
   shell.stderr.on("data", (data) => {
-    console.log(shells[shellid])
+    console.log(shells[shellid]);
     const { terminalidx, tabidx } = shells[shellid];
     event.reply("shell-output", {
       type: "error",

@@ -11,4 +11,5 @@ const modulesTemplate = `
 
 loadCSS('../views/modals/modules/modules.css', document.head)
 loadScript('text/javascript', '../views/modals/modules/modulesscript.js', document.head)
-PushModal.innerHTML += modulesTemplate
+
+PushModal.innerHTML = modulesTemplate

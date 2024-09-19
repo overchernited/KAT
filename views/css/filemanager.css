@@ -39,7 +39,7 @@
     width: 20%;
     background-color: var(--third-color);
     border-radius: 8px;
-    z-index: 1000;
+    z-index: 2000;
     overflow-y: hidden;
     overflow-x: hidden;
     transition: opacity .2s, width .15s, height .15s;
@@ -105,87 +105,11 @@
     border-width: 2px;
 }
 
-.group{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: .2rem;
-    transition: transform .2s;
-    border-radius: 5px;
-    border: none !important;
-    word-break: keep-all;
-    margin: 5px;
-    width: fit-content;
-    font-size: 10px;
-    font-weight: 500;
-    text-align: center;
-}
-
-.group > p{
-    margin: 2px;
-}
-
 .filemngrGroups{
     width: 40%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.group:hover{
-    transform: translateX(5px);
-    cursor: pointer;
-    background-color: var(--main-color);
-}
-
-.green{
-    color: #3eda65;
-    border: 1px #3eda65 solid;
-}
-
-.green:hover{
-    color: var(--main-color);
-    background-color: #3eda65;
-}
-
-.blue{
-    color: var(--accentuation-color);
-    border: 1px var(--accentuation-color) dashed;
-}
-
-.blue:hover{
-    color: var(--main-color);
-    background-color: var(--accentuation-color);
-}
-
-.red{
-    color: #fa4d4d;
-    border: 1px #fa4d4d dashed;
-}
-
-.red:hover{
-    color: var(--main-color);
-    background-color: #e93535;
-}
-
-.purple{
-    color: #5963f7;
-    border: 1px #5963f7 dashed;
-}
-
-.purple:hover{
-    color: var(--main-color);
-    background-color: #5963f7;
-}
-
-.yellow{
-    color: #fac636;
-    border: 1px #fac636 dashed;
-}
-
-.yellow:hover{
-    color: var(--main-color);
-    background-color: #fac636;
 }
 
 

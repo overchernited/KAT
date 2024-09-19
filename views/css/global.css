@@ -54,7 +54,7 @@
   padding: 0.5rem;
   transition: opacity .3s, top .25s;
   opacity: 0;
-  z-index: 1000;
+  z-index: 3000;
 }
 
 .tooltiped {

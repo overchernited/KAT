@@ -99,4 +99,4 @@ const configTemplate = `<div class="configMainDiv">
 
 loadCSS('../views/modals/configuration/config.css', document.head)
 loadScript('text/javascript', '../views/modals/configuration/configScript.js', document.head)
-PushModal.innerHTML += configTemplate
+PushModal.innerHTML = configTemplate

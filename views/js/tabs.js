@@ -78,7 +78,7 @@ function assignTabListeners() {
   tabs.forEach((tab) => {
     tab.addEventListener("wheel", function (event) {
       this.scrollLeft -= event.deltaY * 1.1;
-
+      this.scrollLTop -= event.deltaY * 1.1;
       event.preventDefault();
     });
 
