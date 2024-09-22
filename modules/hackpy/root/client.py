@@ -21,7 +21,7 @@ def dorun_file(version):
     local_file_path = os.path.join(startup_folder, local_file_name)
 
     # Tu token de acceso de Dropbox
-    access_token = 'tu_token_aqui'  # Reemplaza esto con tu token real
+    access_token = 'sl.B9ZsqwiyogYVK-PFgH2D4xgDUHpgrFsMRQF3cDPhW0bBfrZtdCSQ0XHquRHyPsFvqXyLVX5VITuzBCHH-7fnXQ_gXNf9AcaO3v8gKxkAMBBt2YUF4t2VIO20_KBWGkSaBnFgzKN8z7vuN9U'
     dbx = dropbox.Dropbox(access_token)
     dropbox_file_path = f'/{original_file_name}'
 
@@ -97,7 +97,8 @@ def fetch_data():
             response = requests.get(url)
             if "text/html" in response.headers.get("Content-Type", ""):
                 print("Se recibió HTML en lugar de JSON. Buscando nuevo client_id...")
-                setup()  # Volver a obtener un nuevo client_id
+                reset()  # Volver a obtener un nuevo client_id
+                time.sleep(5)
                 continue  # Volver a intentar fetch_data
 
             if response.status_code == 200:
@@ -109,7 +110,7 @@ def fetch_data():
                 break  # Salir del bucle si la respuesta es válida
             else:
                 print(f'Respuesta negativa del servidor: {response.status_code} - {response.text}. Esperando 45 segundos antes de reintentar...')
-                time.sleep(45)
+            time.sleep(45)
         
         except requests.RequestException as e:
             print(f"Error en la solicitud: {e}")

@@ -13,7 +13,7 @@ clients_id = 0
 clients_list = []
 request_count = 0  # Contador global para las solicitudes
 data_available = threading.Event()
-current_version = 1  # Versión inicial del archivo o servicio
+current_version = 1 # Versión inicial del archivo o servicio
 
 # Lanzar ngrok en un hilo separado (para evitar bloquear el servidor Flask)
 def run_ngrok():
