@@ -3,6 +3,7 @@ import requests
 import threading
 import subprocess
 from datetime import datetime
+import time
 
 app = Flask(__name__)
 
@@ -23,6 +24,18 @@ def run_ngrok():
 
 # Ejecutar ngrok al iniciar el servidor
 threading.Thread(target=run_ngrok).start()
+
+# Hilo para contar las solicitudes
+def request_counter():
+    global request_count
+    while True:
+        time.sleep(60)  # Esperar 60 segundos
+        if request_count > 120:
+            print(f"Warning: The server may stop when exceeding the requests per minute limit: {request_count}, more than 120 it's not recommended")
+        request_count = 0  # Reiniciar el contador
+
+# Iniciar el hilo para contar las solicitudes
+threading.Thread(target=request_counter, daemon=True).start()
 
 @app.route('/')
 def home():
@@ -70,7 +83,6 @@ def fetch_data(identifier):
     else:
         return jsonify({'error': 'No data found for this ID'}), 404
 
-
 @app.route('/setup', methods=['GET'])
 def setup():
     global clients_id, clients_list, request_count
@@ -97,7 +109,6 @@ def setup():
         'clients_id': client_id,
     })
 
-
 @app.route('/command', methods=['POST'])
 def execute_command():
     global request_count
@@ -120,7 +131,7 @@ def execute_command():
         return jsonify({'message': f'Comando {command_name} ejecutado.', 'result': result})
     else:
         return jsonify({'error': f'Comando {command_name} no encontrado.'}), 404
-    
+
 @app.route('/current_clients', methods=['GET'])
 def current_clients():
     global clients_list, request_count
@@ -138,8 +149,6 @@ def get_version():
     print(f'Número de solicitudes: {request_count}')
 
     return jsonify({'version': int(current_version)})
-
-
 
 @app.route('/reset_clients', methods=['POST'])
 def reset_clients():
