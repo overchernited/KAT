@@ -8,14 +8,9 @@ Designed to feel familiar but enhanced, KAT gives you power and clarity in one b
 
 ## ⚙️ Key Features
 
-...
-
 - 🎨 **Themes with CSS Injection**  
   Powered by direct CSS injection — creating a theme is as easy as changing class names or CSS variables. Style your terminal in seconds without touching the core logic.
 
-...
-
----
 
 ## 🛠️ Customization
 
