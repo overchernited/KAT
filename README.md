@@ -1,6 +1,6 @@
 # 🐾 KAT – Keyboard Assisted Terminal
 
-**KAT** is a sleek, customizable web-embedded terminal built with **Vanilla JavaScript**, **Electron.js**, and pure **HTML/CSS**. It runs a real shell in the background while offering a cleaner interface, custom keybindings, sound effects, themes, and better compatibility with modern workflows.
+**KAT** is a sleek, customizable web-embedded terminal built with **Vanilla JavaScript**, **Electron.js**, and pure **HTML/CSS**. It runs a real shell in the background while offering a cleaner interface, custom keybindings, sound effects, and CSS-injected themes — making customization fast and powerful.
 
 Designed to feel familiar but enhanced, KAT gives you power and clarity in one beautiful terminal.
 
@@ -8,11 +8,35 @@ Designed to feel familiar but enhanced, KAT gives you power and clarity in one b
 
 ## ⚙️ Key Features
 
-- 🖥️ **Runs on a real shell**  
-  Executes native shell commands in the background with seamless integration.
+...
 
-- 🎨 **Themes**  
-  Easily install and switch between visual themes to match your style.
+- 🎨 **Themes with CSS Injection**  
+  Powered by direct CSS injection — creating a theme is as easy as changing class names or CSS variables. Style your terminal in seconds without touching the core logic.
+
+...
+
+---
+
+## 🛠️ Customization
+
+- **Themes (Powered by CSS Injection):**  
+  Drop your `.css` files into the `/themes` folder and activate them via the settings menu.  
+  You can build your own theme by simply redefining existing CSS variables or overriding class styles.  
+  No compilation, no complexity — just pure styling freedom.
+
+  ```css
+  /* Example: Light Theme */
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #111111;
+    --accent-color: #00b894;
+  }
+
+  .terminal {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  ```
 
 - 🔊 **Custom sounds**  
   Enjoy unique sound feedback for key events, making the experience more immersive.
